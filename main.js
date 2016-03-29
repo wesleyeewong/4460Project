@@ -105,6 +105,18 @@ function start() {
 	var xAxis = d3.svg.axis().scale(xScale).orient("top");
 	var yAxis = d3.svg.axis().scale(yScale).orient("right");
 
+	// setup x
+	var xValue = function(d) { return d.key; };
+	var xMap = function(d) { return xScale(xValue(d)); };
+
+	// setup y TODO: fix y mapping
+	var yValueManU = function(d) { return d.manU; };
+	var yValueTott = function(d) { return d.tott; };
+	var yValueOther = function(d) { return d.other; };
+	var yMapManU = function(d) { return yScale(yValueManU(d)); };
+	var yMapTott = function(d) { return yScale(yValueTott(d)); };
+	var yMapOther = function(d) { return yScale(yValueOther(d)); };
+
 	// Color
 	var color = d3.scale.category10();
 	// END LINE GRAPH
@@ -174,20 +186,30 @@ function start() {
 
 						var parsedData = [
 						{
-							key: "1011"
-							value: [vsManU1011, vsTott1011, vsOther1011]
+							key: "10/11 Season",
+							manU: vsManU1011,
+							tott: vsTott1011,
+							other: vsOther1011
 						}, {
-							key: "1112"
-							value: [vsManU1112, vsTott1112, vsOther1112]
+							key: "11/12 Season",
+							manU: vsManU1112,
+							tott: vsTott1112,
+							other: vsOther1112
 						}, {
-							key: "1213"
-							value: [vsManU1213, vsTott1213, vsOther1213]
+							key: "12/13 Season",
+							manU: vsManU1213,
+							tott: vsTott1213,
+							other: vsOther1213
 						}, {
-							key: "1314"
-							value: [vsManU1314, vsTott1314, vsOther1314]
+							key: "13/14 Season",
+							manU: vsManU1314,
+							tott: vsTott1314,
+							other: vsOther1314
 						}, {
-							key: "1415"
-							value: [vsManU1415, vsTott1415, vsOther1415]
+							key: "14/15 Season",
+							manU: vsManU1415,
+							tott: vsTott1415,
+							other: vsOther1415
 						}];
 
 						// X and Y scaling domains
@@ -215,6 +237,9 @@ function start() {
 						dot.append("circle")
 							.attr("class", "dot")
 							.attr("r", 10)
+							.attr("cx", xMap)
+							.attr("cy", yMapManU)
+							.style("fill", function(d) { return color(cValue(d)); });
 
 
 					})
