@@ -25,6 +25,7 @@ function countWinLoss(d, rival) {
 	var awayWin = 0;
 	var awayLoss = 0;
 	var awayDraw = 0;
+	var total = 0;
 
 	d.forEach(function(e) {
 
@@ -37,6 +38,7 @@ function countWinLoss(d, rival) {
 				} else {
 					homeDraw += 1;
 				}
+				total += 1;
 			}
 			if (e.HomeTeam == rival && e.AwayTeam == "Arsenal") {
 				if (e.FTR == "A") {
@@ -46,6 +48,7 @@ function countWinLoss(d, rival) {
 				} else {
 					awayDraw += 1;
 				}
+				total += 1;
 			}
 		} else {
 			if (e.HomeTeam == "Arsenal" && ["Man United", "Tottenham"].indexOf(e.AwayTeam) == -1) {
@@ -57,6 +60,7 @@ function countWinLoss(d, rival) {
 				} else {
 					homeDraw += 1;
 				}
+				total += 1;
 			}
 			if (["Man United", "Tottenham"].indexOf(e.HomeTeam) == -1 && e.AwayTeam == "Arsenal") {
 				//console.log(e.HomeTeam);
@@ -67,13 +71,14 @@ function countWinLoss(d, rival) {
 				} else {
 					awayDraw += 1;
 				}
+				total += 1;
 			}
 		}
 
 	});
 
 	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
-		awayW:awayWin, awayL:awayLoss, awayD:awayDraw};
+		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total};
 }
 
 function start() {
@@ -110,9 +115,9 @@ function start() {
 	var xMap = function(d) { return xScale(xValue(d)); };
 
 	// setup y TODO: fix y mapping
-	var yValueManU = function(d) { return d.manU; };
-	var yValueTott = function(d) { return d.tott; };
-	var yValueOther = function(d) { return d.other; };
+	var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)/d.manU.totalG) * 100; };
+	var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)/d.tott.totalG) * 100; };
+	var yValueOther = function(d) { return ((d.other.homeW + d.other.awayW)/d.other.totalG) * 100; };
 	var yMapManU = function(d) { return yScale(yValueManU(d)); };
 	var yMapTott = function(d) { return yScale(yValueTott(d)); };
 	var yMapOther = function(d) { return yScale(yValueOther(d)); };
@@ -229,18 +234,41 @@ function start() {
 							.attr("class", "y-axis")
 							.call(yAxis);
 
-						var dot = lineSvg.append("g")
+						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
 							.data(parsedData)
 							.enter();
 
-						dot.append("circle")
+						var tottDot = lineSvg.append("g")
+							.selectAll(".dot")
+							.data(parsedData)
+							.enter();
+
+						var otherDot = lineSvg.append("g")
+							.selectAll(".dot")
+							.data(parsedData)
+							.enter();
+
+						manUDot.append("circle")
 							.attr("class", "dot")
-							.attr("r", 10)
+							.attr("r", 7)
 							.attr("cx", xMap)
 							.attr("cy", yMapManU)
-							.style("fill", function(d) { return color(cValue(d)); });
+							.attr("fill", "red");
 
+						tottDot.append("circle")
+							.attr("class", "dot")
+							.attr("r", 7)
+							.attr("cx", xMap)
+							.attr("cy", yMapTott)
+							.attr("fill", "black");
+
+						otherDot.append("circle")
+							.attr("class", "dot")
+							.attr("r", 7)
+							.attr("cx", xMap)
+							.attr("cy", yMapOther)
+							.attr("fill", "blue");
 
 					})
 				})
