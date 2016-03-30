@@ -1,7 +1,9 @@
 TO DO LIST: 1: top priority...
 
+put name on the side of your task
+
 Overall:
-1	- Organizing the data
+0	- Organizing the data
 
 Main page:
 1	- Label axis 
