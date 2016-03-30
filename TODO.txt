@@ -7,11 +7,22 @@ Overall:
 
 Main page:
 1	- Label axis 
-1	- Interaction (DoD)
+1	- Interaction (DoD, tooltip)
 3	- Connecting dots (optional)
 2	- Fixing margins/sizes
 2	- Better color
 3	- Filtering teams (optional)
 
 2nd Page:
-2	-get started
+2	-make infographic 
+	-make table 
+	-have values show up in table 
+	-enable filters 
+	-link to main page 
+	-have 2nd page come out in a different page 
+
+3rd Page: 
+	-make bar chart 
+	-have correct values 
+	-enable brushing and linking with 2nd page 
+	
