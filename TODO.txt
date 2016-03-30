@@ -1,0 +1,15 @@
+TO DO LIST: 1: top priority...
+
+Overall:
+1	- Organizing the data
+
+Main page:
+1	- Label axis 
+1	- Interaction (DoD)
+3	- Connecting dots (optional)
+2	- Fixing margins/sizes
+2	- Better color
+3	- Filtering teams (optional)
+
+2nd Page:
+2	-get started
