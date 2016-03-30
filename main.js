@@ -100,7 +100,8 @@ function start() {
 	var lineSvg = d3.select(lineGraph)
 		.append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.append("g");
 
 	// X and Y scalings
 	var xScale = d3.scale.ordinal().rangeRoundBands([0, width], 0.3);
@@ -123,7 +124,7 @@ function start() {
 	var yMapOther = function(d) { return yScale(yValueOther(d)); };
 
 	// Color
-	var color = d3.scale.category10();
+	var color = d3.scale.ordinal().range(["#636363", "#d62728", "#1f77b4"]);
 	// END LINE GRAPH
 
 	d3.csv("10-11.csv", function(d) {
@@ -269,11 +270,32 @@ function start() {
 							.attr("cx", xMap)
 							.attr("cy", yMapOther)
 							.attr("fill", "blue");
+						
+						//Label Start
+						var teamName = ["Others", "ManU", "Totten"];
+						
+						// draw legend
+						var legend = d3.select('#legend').selectAll(".legend")
+							.data(teamName)
+							.enter().append("p")
+							.attr("class", "legend");
 
+						// draw legend colored rectangles
+						legend.append("span")
+							.attr('class', 'colorBox')
+							.style('float', 'left')
+							.style("background-color", function(d) {return color(d);});
+
+						// draw legend text
+						legend.append("span")
+							.style("color", "black")
+							.style("text-anchor", "end")
+							.text(function(d) { return d; });
 					})
 				})
 			})
 		})
 	});
-
+	
 };
+

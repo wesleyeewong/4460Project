@@ -1,0 +1,36 @@
+body {
+  font: 11px sans-serif;
+  font-weight: 400;
+  text-align: center;
+  background: white;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.graph {
+    margin-right: 38px;
+	margin-top: 55px;
+    float: left;
+}
+
+#legend{
+	min-width: 300px;
+    padding: 20px
+}
+
+.legend {
+	overflow: auto;
+	text-align: left;
+}
+
+.legend .colorBox {
+	width: 14px;
+	height: 14px;
+	margin-right: 10px;
+}
+
+.wrap {
+  width: 1050px;
+  margin: 0 auto 0;
+  display: flex;
+}
