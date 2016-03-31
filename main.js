@@ -98,6 +98,7 @@ function start() {
 	var totalTeamsInLeague = 20;
 	var targetTeams = ["Arsenal", "Tottenham", "Man United"];
 	var targetSeason = ["10/11 Season", "11/12 Season", "12/13 Season", "13/14 Season", "14/15 Season"];
+	var circleRadius = 7;
 	// End constants
 
 	// START LINE GRAPH DEFINITION
@@ -120,16 +121,25 @@ function start() {
 	var xMap = function(d) { return xScale(xValue(d)); };
 
 	// setup y TODO: fix y mapping
-	var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)/d.manU.totalG) * 100; };
-	var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)/d.tott.totalG) * 100; };
-	var yValueOther = function(d) { return ((d.other.homeW + d.other.awayW)/d.other.totalG) * 100; };
+	// var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)/d.manU.totalG) * 100; };
+	// var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)/d.tott.totalG) * 100; };
+	// var yValueOther = function(d) { return ((d.other.homeW + d.other.awayW)/d.other.totalG) * 100; };
+	var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)*3+d.manU.homeD+d.manU.awayD); };
+	var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)*3+d.tott.homeD+d.tott.awayD) ;};
+	var yValueOther = function(d) { return ((d.other.homeW + d.tott.awayW)*3+d.other.homeD+d.other.awayD)/18; };
 	var yMapManU = function(d) { return yScale(yValueManU(d)); };
 	var yMapTott = function(d) { return yScale(yValueTott(d)); };
 	var yMapOther = function(d) { return yScale(yValueOther(d)); };
 
 	// Color
-	var color = d3.scale.ordinal().range(["#636363", "#d62728", "#1f77b4"]);
+	var color = d3.scale.ordinal().range(["#d62728", "#636363", "#1f77b4"]);
 	// END LINE GRAPH
+
+	// add tooltip area 
+	var tooltip = d3.select("body").append("div")
+		.attr("class", "tooltip")
+		.style("z-index", 10)
+		.style("opacity", 0);
 
 	d3.csv("10-11.csv", function(d) {
 		turnToInt(d);
@@ -227,7 +237,7 @@ function start() {
 							// console.log(d);
 							return d;
 						}));
-						yScale.domain([0, 100]);
+						yScale.domain([0, 8]);
 
 						// Drawing x and y axis
 						lineSvg.append("g")
@@ -259,29 +269,42 @@ function start() {
 
 						manUDot.append("circle")
 							.attr("class", "dot")
-							.attr("r", 7)
+							.attr("r", circleRadius)
 							.attr("cx", function(d) {
 								return xMap(d) + xOffset;
 							})
 							.attr("cy", function(d) {
 								return yMapManU(d) + yOffset;
 							})
-							.attr("fill", color("ManU"));
+							.attr("fill", color("ManU"))
+							.on("mouseover", function(d) {
+
+								tooltip.style("opacity", 1)
+								tooltip.html("<b>Manchester United</b> <br/>" + "Home W/L: " + d.manU.homeW + "/" + d.manU.homeL + "<br/> Away W/L&nbsp: " + d.manU.awayW + "/" + d.manU.awayL)
+									.style("left", d3.event.pageX + 3 + "px")
+									.style("top", d3.event.pageY + 3 + "px");
+
+							})
+							.on("mouseout", function(d) {
+
+								tooltip.style("opacity", 0);
+
+							});
 
 						tottDot.append("circle")
 							.attr("class", "dot")
-							.attr("r", 7)
+							.attr("r", circleRadius)
 							.attr("cx", function (d) {
 								return xMap(d) + xOffset;
 							})
-							.attr("cy", function(d) {
+							.attr("cy", function(d) {	
 								return yMapTott(d) + yOffset;
 							})
 							.attr("fill", color("Totten"));
 
 						otherDot.append("circle")
 							.attr("class", "dot")
-							.attr("r", 7)
+							.attr("r", circleRadius)
 							.attr("cx", function(d) {
 								return xMap(d) + xOffset;
 							})
@@ -291,7 +314,7 @@ function start() {
 							.attr("fill", color("Others"));
 						
 						//Label Start
-						var teamName = ["Others", "ManU", "Totten"];
+						var teamName = ["Others", "Totten", "ManU"];
 						
 						// draw legend
 						var legend = d3.select('#legend').selectAll(".legend")
