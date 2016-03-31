@@ -98,7 +98,9 @@ function start() {
 	var totalTeamsInLeague = 20;
 	var targetTeams = ["Arsenal", "Tottenham", "Man United"];
 	var targetSeason = ["10/11 Season", "11/12 Season", "12/13 Season", "13/14 Season", "14/15 Season"];
-	var circleRadius = 7;
+	var circleRadius = 10;
+	var legendSlection = 5;
+	var dotSelection = 6;
 	// End constants
 
 	// START LINE GRAPH DEFINITION
@@ -126,7 +128,7 @@ function start() {
 	// var yValueOther = function(d) { return ((d.other.homeW + d.other.awayW)/d.other.totalG) * 100; };
 	var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)*3+d.manU.homeD+d.manU.awayD); };
 	var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)*3+d.tott.homeD+d.tott.awayD) ;};
-	var yValueOther = function(d) { return ((d.other.homeW + d.tott.awayW)*3+d.other.homeD+d.other.awayD)/18; };
+	var yValueOther = function(d) { return ((d.other.homeW + d.tott.awayW)*3+d.other.homeD+d.other.awayD)/16; };
 	var yMapManU = function(d) { return yScale(yValueManU(d)); };
 	var yMapTott = function(d) { return yScale(yValueTott(d)); };
 	var yMapOther = function(d) { return yScale(yValueOther(d)); };
@@ -268,19 +270,23 @@ function start() {
 							.enter();
 
 						manUDot.append("circle")
-							.attr("class", "dot")
+							.attr("class", "dot manU")
+							.attr("id", function(d) {
+								return "manU_" + d.key.replace(" Season", "").replace("/", "_");
+							})
+							.attr("clicked", "F")
 							.attr("r", circleRadius)
 							.attr("cx", function(d) {
-								return xMap(d) + xOffset;
+								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {
 								return yMapManU(d) + yOffset;
 							})
-							.attr("fill", color("ManU"))
+							.attr("fill", color("manU"))
 							.on("mouseover", function(d) {
 
 								tooltip.style("opacity", 1)
-								tooltip.html("<b>Manchester United</b> <br/>" + "Home W/L: " + d.manU.homeW + "/" + d.manU.homeL + "<br/> Away W/L&nbsp: " + d.manU.awayW + "/" + d.manU.awayL)
+								tooltip.html("<b>Manchester United</b> <br/>" + "Home W/L/D: " + d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD + "<br/> Away W/L/D&nbsp: " + d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD )
 									.style("left", d3.event.pageX + 3 + "px")
 									.style("top", d3.event.pageY + 3 + "px");
 
@@ -289,38 +295,196 @@ function start() {
 
 								tooltip.style("opacity", 0);
 
+							})
+							.on("click", function(d) {
+
+								var id = "#manU_"+d.key.replace(" Season", "").replace("/", "_");
+								var targetCircle = lineSvg.select(id);
+								//var targetR = targetCircle.attr("r");
+								console.log(id);
+
+								if (targetCircle.attr("clicked") == "F") {
+									targetCircle.transition()
+										.duration(300)
+										.style("stroke", "white")
+										.style("stroke-width", "2.5")
+										.attr("clicked", "T");
+								} else {
+									targetCircle.transition()
+										.duration(250)
+										.style("stroke", null)
+										.style("stroke-width", null)
+										.attr("clicked", "F");
+								}
+									// .attr("r", function(e) {
+									// 	if (targetR == circleRadius) {
+									// 		return +circleRadius + 5;
+									// 	} else {
+									// 		return circleRadius;
+									// 	}
+									// });
+									// TODO: APPEND ADAVANCE STATS HERE;
+								// lineSvg.selectAll(".dot")
+								// 	.attr("r", circleRadius);
+								// lineSvg.selectAll(".manU")
+								// 	.transition()
+								// 	.duration(300)
+								// 	.attr("r", function(e) {
+								// 		if (currentR == circleRadius) {
+								// 			return circleRadius + 5;
+								// 		} else {
+								// 			return circleRadius;
+								// 		}
+								// 	});
+
 							});
 
 						tottDot.append("circle")
-							.attr("class", "dot")
+							.attr("class", "dot tott")
+							.attr("id", function(d) {
+								return "tott_" + d.key.replace(" Season", "").replace("/", "_");
+							})
 							.attr("r", circleRadius)
 							.attr("cx", function (d) {
-								return xMap(d) + xOffset;
+								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {	
 								return yMapTott(d) + yOffset;
 							})
-							.attr("fill", color("Totten"));
+							.attr("fill", color("tott"))
+							.on("mouseover", function(d) {
+
+								tooltip.style("opacity", 1)
+								tooltip.html("<b>Tottenham</b> <br/>" + "Home W/L/D: " + d.tott.homeW + "/" + d.tott.homeL + "/" + d.tott.homeD + "<br/> Away W/L/D: " + d.tott.awayW + "/" + d.tott.awayL+ "/" + d.tott.awayD )
+									.style("left", d3.event.pageX + 3 + "px")
+									.style("top", d3.event.pageY + 3 + "px");
+
+							})
+							.on("mouseout", function(d) {
+
+								tooltip.style("opacity", 0);
+
+							})
+							.on("click", function(d) {
+
+								var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
+								var targetCircle = lineSvg.select(id);
+								var targetR = targetCircle.attr("r");
+								console.log(id);
+
+								targetCircle.transition()
+									.duration(300)
+									.attr("r", function(e) {
+										if (targetR == circleRadius) {
+											return circleRadius + 5;
+										} else {
+											return circleRadius;
+										}
+									});
+									// TODO: APPEND ADAVANCE STATS HERE;
+
+								// var currentR = lineSvg.selectAll(".tott").attr("r");
+								// lineSvg.selectAll(".dot")
+								// 	.attr("r", circleRadius);
+								// lineSvg.selectAll(".tott")
+								// 	.transition()
+								// 	.duration(300)
+								// 	.attr("r", function(e) {
+								// 		if (currentR == circleRadius) {
+								// 			return circleRadius + 5;
+								// 		} else {
+								// 			return circleRadius;
+								// 		}
+								// 	});
+
+							});
 
 						otherDot.append("circle")
-							.attr("class", "dot")
+							.attr("class", "dot other")
+							.attr("id", function(d) {
+								return "other_" + d.key.replace(" Season", "").replace("/", "_");
+							})
 							.attr("r", circleRadius)
 							.attr("cx", function(d) {
-								return xMap(d) + xOffset;
+								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {
 								return yMapOther(d) + yOffset;
 							})
-							.attr("fill", color("Others"));
+							.attr("fill", color("other"))
+							.on("mouseover", function(d) {
+
+								tooltip.style("opacity", 1)
+								tooltip.html("<b>Remaining average</b> <br/>" + "Home W/L/D: " + d.other.homeW + "/" + d.other.homeL + "/" + d.other.homeD + "<br/> Away W/L/D: " + d.other.awayW + "/" + d.other.awayL + "/" + d.other.awayD )
+									.style("left", d3.event.pageX + 3 + "px")
+									.style("top", d3.event.pageY + 3 + "px");
+
+							})
+							.on("mouseout", function(d) {
+
+								tooltip.style("opacity", 0);
+
+							})
+							.on("click", function(d) {
+
+								var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
+								var targetCircle = lineSvg.select(id);
+								var targetR = targetCircle.attr("r");
+								console.log(id);
+
+								targetCircle.transition()
+									.duration(300)
+									.attr("r", function(e) {
+										if (targetR == circleRadius) {
+											return circleRadius + 5;
+										} else {
+											return circleRadius;
+										}
+									});
+									// TODO: APPEND ADAVANCE STATS HERE;
+
+								// var currentR = lineSvg.selectAll(".other").attr("r");
+								// lineSvg.selectAll(".dot")
+								// 	.attr("r", circleRadius);
+								// lineSvg.selectAll(".other")
+								// 	.transition()
+								// 	.duration(300)
+								// 	.attr("r", function(e) {
+								// 		if (currentR == circleRadius) {
+								// 			return circleRadius + 5;
+								// 		} else {
+								// 			return circleRadius;
+								// 		}
+								// 	});
+
+							});
 						
 						//Label Start
-						var teamName = ["Others", "Totten", "ManU"];
+						var teamName = ["other", "tott", "manU"];
 						
 						// draw legend
-						var legend = d3.select('#legend').selectAll(".legend")
+						var legend = d3.select('#legendDiv').selectAll(".legend")
 							.data(teamName)
 							.enter().append("p")
-							.attr("class", "legend");
+							.attr("class", "legend")
+							.attr("id", function(d) { return d; })
+							.on("click", function(d) {
+
+								var className = "."+d;
+								var currentR = lineSvg.selectAll(className).attr("r");
+								lineSvg.selectAll(".dot").attr("r", circleRadius);
+								lineSvg.selectAll(className)
+									.transition()
+									.duration(300)
+									.attr("r", function(e) {
+										if (currentR == circleRadius) {
+											return (+currentR + 5);
+										} else {
+											return (+currentR - 5);
+										}
+									})
+
+							});
 
 						// draw legend colored rectangles
 						legend.append("span")
@@ -332,7 +496,15 @@ function start() {
 						legend.append("span")
 							.style("color", "white")
 							.style("text-anchor", "end")
-							.text(function(d) { return d; });
+							.text(function(d) {
+								if (d == "other") {
+									return "Other";
+								} else if (d == "tott") {
+									return "Tottenham";
+								} else {
+									return "Manchester United";
+								}
+							});
 					})
 				})
 			})
