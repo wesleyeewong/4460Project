@@ -300,12 +300,11 @@ function start() {
 
 								var id = "#manU_"+d.key.replace(" Season", "").replace("/", "_");
 								var targetCircle = lineSvg.select(id);
-								//var targetR = targetCircle.attr("r");
 								console.log(id);
 
 								if (targetCircle.attr("clicked") == "F") {
 									targetCircle.transition()
-										.duration(300)
+										.duration(250)
 										.style("stroke", "white")
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
@@ -341,6 +340,7 @@ function start() {
 
 						tottDot.append("circle")
 							.attr("class", "dot tott")
+							.attr("clicked", "F")
 							.attr("id", function(d) {
 								return "tott_" + d.key.replace(" Season", "").replace("/", "_");
 							})
@@ -369,18 +369,36 @@ function start() {
 
 								var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
 								var targetCircle = lineSvg.select(id);
-								var targetR = targetCircle.attr("r");
 								console.log(id);
 
-								targetCircle.transition()
-									.duration(300)
-									.attr("r", function(e) {
-										if (targetR == circleRadius) {
-											return circleRadius + 5;
-										} else {
-											return circleRadius;
-										}
-									});
+								if (targetCircle.attr("clicked") == "F") {
+									targetCircle.transition()
+										.duration(250)
+										.style("stroke", "white")
+										.style("stroke-width", "2.5")
+										.attr("clicked", "T");
+								} else {
+									targetCircle.transition()
+										.duration(250)
+										.style("stroke", null)
+										.style("stroke-width", null)
+										.attr("clicked", "F");
+								}
+
+								// var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
+								// var targetCircle = lineSvg.select(id);
+								// var targetR = targetCircle.attr("r");
+								// console.log(id);
+
+								// targetCircle.transition()
+								// 	.duration(300)
+								// 	.attr("r", function(e) {
+								// 		if (targetR == circleRadius) {
+								// 			return circleRadius + 5;
+								// 		} else {
+								// 			return circleRadius;
+								// 		}
+								// 	});
 									// TODO: APPEND ADAVANCE STATS HERE;
 
 								// var currentR = lineSvg.selectAll(".tott").attr("r");
@@ -401,6 +419,7 @@ function start() {
 
 						otherDot.append("circle")
 							.attr("class", "dot other")
+							.attr("clicked", "F")
 							.attr("id", function(d) {
 								return "other_" + d.key.replace(" Season", "").replace("/", "_");
 							})
@@ -429,18 +448,36 @@ function start() {
 
 								var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
 								var targetCircle = lineSvg.select(id);
-								var targetR = targetCircle.attr("r");
 								console.log(id);
 
-								targetCircle.transition()
-									.duration(300)
-									.attr("r", function(e) {
-										if (targetR == circleRadius) {
-											return circleRadius + 5;
-										} else {
-											return circleRadius;
-										}
-									});
+								if (targetCircle.attr("clicked") == "F") {
+									targetCircle.transition()
+										.duration(250)
+										.style("stroke", "white")
+										.style("stroke-width", "2.5")
+										.attr("clicked", "T");
+								} else {
+									targetCircle.transition()
+										.duration(250)
+										.style("stroke", null)
+										.style("stroke-width", null)
+										.attr("clicked", "F");
+								}
+
+								// var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
+								// var targetCircle = lineSvg.select(id);
+								// var targetR = targetCircle.attr("r");
+								// console.log(id);
+
+								// targetCircle.transition()
+								// 	.duration(300)
+								// 	.attr("r", function(e) {
+								// 		if (targetR == circleRadius) {
+								// 			return circleRadius + 5;
+								// 		} else {
+								// 			return circleRadius;
+								// 		}
+								// 	});
 									// TODO: APPEND ADAVANCE STATS HERE;
 
 								// var currentR = lineSvg.selectAll(".other").attr("r");
