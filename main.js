@@ -233,12 +233,14 @@ function start() {
 						lineSvg.append("g")
 							.attr("class", "x-axis")
 							.attr("transform", "translate("+xOffset+", "+(yOffset+height+30)+")")
-							.call(xAxis);
+							.call(xAxis)
+							.attr("fill", "white");
 
 						lineSvg.append("g")
 							.attr("class", "y-axis")
 							.attr("transform", "translate("+xOffset+", "+yOffset+")")
-							.call(yAxis);
+							.call(yAxis)
+							.attr("fill", "white");
 
 						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
@@ -305,7 +307,7 @@ function start() {
 
 						// draw legend text
 						legend.append("span")
-							.style("color", "black")
+							.style("color", "white")
 							.style("text-anchor", "end")
 							.text(function(d) { return d; });
 					})
