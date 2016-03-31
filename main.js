@@ -87,8 +87,12 @@ function start() {
 
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
+	var cWidth = 850;
+	var cHeight = 700;
 	var width = 850 - margin.left - margin.right;
 	var height = 700 - margin.top - margin.bottom;
+	var xOffset = 25;
+	var yOffset = 25;
 	var totalSeasons = 5;
 	var totalGamesPerSeason = 380;
 	var totalTeamsInLeague = 20;
@@ -99,8 +103,8 @@ function start() {
 	// START LINE GRAPH DEFINITION
 	var lineSvg = d3.select(lineGraph)
 		.append("svg")
-		.attr("width", width)
-		.attr("height", height)
+		.attr("width", cWidth)
+		.attr("height", cHeight)
 		.append("g");
 
 	// X and Y scalings
@@ -108,8 +112,8 @@ function start() {
 	var yScale = d3.scale.linear().range([height, 0]);
 
 	// Axis
-	var xAxis = d3.svg.axis().scale(xScale).orient("top");
-	var yAxis = d3.svg.axis().scale(yScale).orient("right");
+	var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+	var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
 	// setup x
 	var xValue = function(d) { return d.key; };
@@ -228,11 +232,12 @@ function start() {
 						// Drawing x and y axis
 						lineSvg.append("g")
 							.attr("class", "x-axis")
-							.attr("transform", "translate(0, "+height+")")
+							.attr("transform", "translate("+xOffset+", "+(yOffset+height+30)+")")
 							.call(xAxis);
 
 						lineSvg.append("g")
 							.attr("class", "y-axis")
+							.attr("transform", "translate("+xOffset+", "+yOffset+")")
 							.call(yAxis);
 
 						var manUDot = lineSvg.append("g")
@@ -253,23 +258,35 @@ function start() {
 						manUDot.append("circle")
 							.attr("class", "dot")
 							.attr("r", 7)
-							.attr("cx", xMap)
-							.attr("cy", yMapManU)
-							.attr("fill", "red");
+							.attr("cx", function(d) {
+								return xMap(d) + xOffset;
+							})
+							.attr("cy", function(d) {
+								return yMapManU(d) + yOffset;
+							})
+							.attr("fill", color("ManU"));
 
 						tottDot.append("circle")
 							.attr("class", "dot")
 							.attr("r", 7)
-							.attr("cx", xMap)
-							.attr("cy", yMapTott)
-							.attr("fill", "black");
+							.attr("cx", function (d) {
+								return xMap(d) + xOffset;
+							})
+							.attr("cy", function(d) {
+								return yMapTott(d) + yOffset;
+							})
+							.attr("fill", color("Totten"));
 
 						otherDot.append("circle")
 							.attr("class", "dot")
 							.attr("r", 7)
-							.attr("cx", xMap)
-							.attr("cy", yMapOther)
-							.attr("fill", "blue");
+							.attr("cx", function(d) {
+								return xMap(d) + xOffset;
+							})
+							.attr("cy", function(d) {
+								return yMapOther(d) + yOffset;
+							})
+							.attr("fill", color("Others"));
 						
 						//Label Start
 						var teamName = ["Others", "ManU", "Totten"];
