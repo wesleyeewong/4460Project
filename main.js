@@ -84,11 +84,13 @@ function countWinLoss(d, rival) {
 function start() {
 
 	var lineGraph = document.getElementById("graph");
+	var stats = document.getElementById("stats");
 
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
 	var cWidth = 850;
 	var cHeight = 700;
+	var sWidth = cWidth/2;
 	var width = 850 - margin.left - margin.right;
 	var height = 700 - margin.top - margin.bottom;
 	var xOffset = 25;
@@ -302,18 +304,31 @@ function start() {
 								var targetCircle = lineSvg.select(id);
 								console.log(id);
 
+								var statSvg = d3.select(stats);
+
 								if (targetCircle.attr("clicked") == "F") {
 									targetCircle.transition()
 										.duration(250)
 										.style("stroke", "white")
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
+
+										statSvg.append("svg")
+											.attr("class", "stats")
+											.attr("id", "seasonStats")
+											.attr("width", sWidth)
+											.attr("height", cHeight)
+											.append("g");
+
 								} else {
 									targetCircle.transition()
 										.duration(250)
 										.style("stroke", null)
 										.style("stroke-width", null)
 										.attr("clicked", "F");
+
+									d3.select("#seasonStats").remove();
+
 								}
 									// .attr("r", function(e) {
 									// 	if (targetR == circleRadius) {
