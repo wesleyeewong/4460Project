@@ -89,12 +89,8 @@ function start() {
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
 	var cWidth = 850;
-<<<<<<< HEAD
-	var cHeight = 700;
 	var sWidth = cWidth/2;
-=======
 	var cHeight = 900;
->>>>>>> 463f5c0e7b8ca36d4e1caa5fad272646c34c348e
 	var width = 850 - margin.left - margin.right;
 	var height = 700 - margin.top - margin.bottom;
 	var xOffset = 25;
