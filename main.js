@@ -88,7 +88,7 @@ function start() {
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
 	var cWidth = 850;
-	var cHeight = 700;
+	var cHeight = 900;
 	var width = 850 - margin.left - margin.right;
 	var height = 700 - margin.top - margin.bottom;
 	var xOffset = 25;
@@ -246,13 +246,27 @@ function start() {
 							.attr("class", "x-axis")
 							.attr("transform", "translate("+xOffset+", "+(yOffset+height+30)+")")
 							.call(xAxis)
-							.attr("fill", "white");
+							.attr("fill", "white")
+							.append("text")
+							.attr("x", 795 )
+							.attr("y", 28 )
+							.attr("text-anchor", "end")  // this makes it easy to centre the text as the transform is applied to the anchor
+							.text("Seasons");
 
 						lineSvg.append("g")
 							.attr("class", "y-axis")
 							.attr("transform", "translate("+xOffset+", "+yOffset+")")
 							.call(yAxis)
-							.attr("fill", "white");
+							.attr("fill", "white")
+							.append("text")
+							.attr("class", "label")
+							.attr("transform", "rotate(0)")
+							.attr("y", -18)
+							.attr("x", 26)
+							.attr("dy", ".71em")
+							.attr("fill", "white")
+							.style("text-anchor", "end")
+							.text("Win-Rate");
 
 						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
@@ -522,6 +536,8 @@ function start() {
 									})
 
 							});
+							
+							
 
 						// draw legend colored rectangles
 						legend.append("span")
@@ -542,6 +558,8 @@ function start() {
 									return "Manchester United";
 								}
 							});
+							
+						d3.select('.graph').append('h2').text('Seasons');
 					})
 				})
 			})
