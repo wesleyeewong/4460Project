@@ -26,6 +26,8 @@ function countWinLoss(d, rival) {
 	var awayLoss = 0;
 	var awayDraw = 0;
 	var total = 0;
+	var homeDate = [];
+	var awayDate = [];
 
 	d.forEach(function(e) {
 
@@ -39,6 +41,7 @@ function countWinLoss(d, rival) {
 					homeDraw += 1;
 				}
 				total += 1;
+				homeDate.push(e.Date);
 			}
 			if (e.HomeTeam == rival && e.AwayTeam == "Arsenal") {
 				if (e.FTR == "A") {
@@ -49,6 +52,7 @@ function countWinLoss(d, rival) {
 					awayDraw += 1;
 				}
 				total += 1;
+				awayDate.push(e.Date);
 			}
 		} else {
 			if (e.HomeTeam == "Arsenal" && ["Man United", "Tottenham"].indexOf(e.AwayTeam) == -1) {
@@ -78,7 +82,7 @@ function countWinLoss(d, rival) {
 	});
 
 	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
-		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total};
+		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hDate: homeDate, aDate: awayDate};
 }
 
 function start() {
@@ -326,6 +330,8 @@ function start() {
 										.style("stroke", "white")
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
+
+										//statSvg.append("h1").text("hello word").attr("class", "stat_h1");
 
 										statSvg.append("svg")
 											.attr("class", "stats")
