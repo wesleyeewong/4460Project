@@ -329,19 +329,20 @@ function start() {
 
 										statSvg.append("svg")
 											.attr("class", "stats")
-											.attr("id", "seasonStats")
+											.attr("id", id.replace("#", "")+"_stats")
 											.attr("width", sWidth)
 											.attr("height", cHeight)
 											.append("g");
 
 								} else {
+
 									targetCircle.transition()
 										.duration(250)
 										.style("stroke", null)
 										.style("stroke-width", null)
 										.attr("clicked", "F");
 
-									d3.select("#seasonStats").remove();
+									d3.select("#"+id.replace("#", "")+"_stats").remove();
 
 								}
 									// .attr("r", function(e) {
@@ -400,18 +401,31 @@ function start() {
 								var targetCircle = lineSvg.select(id);
 								console.log(id);
 
+								var statSvg = d3.select(stats);
+
 								if (targetCircle.attr("clicked") == "F") {
 									targetCircle.transition()
 										.duration(250)
 										.style("stroke", "white")
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
+
+										statSvg.append("svg")
+											.attr("class", "stats")
+											.attr("id", id.replace("#", "")+"_stats")
+											.attr("width", sWidth)
+											.attr("height", cHeight)
+											.append("g");
+
 								} else {
+
 									targetCircle.transition()
 										.duration(250)
 										.style("stroke", null)
 										.style("stroke-width", null)
 										.attr("clicked", "F");
+
+									d3.select("#"+id.replace("#", "")+"_stats").remove();
 								}
 
 								// var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
