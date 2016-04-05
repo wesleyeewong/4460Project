@@ -331,14 +331,24 @@ function start() {
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
 
-										//statSvg.append("h1").text("hello word").attr("class", "stat_h1");
+										statSvg.append("div").attr("id", id.replace("#", "")+"_info_and_graph_wrap").attr("class", "info_and_graph_wrap");
+										var outerWrap = d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap"));
 
-										statSvg.append("svg")
-											.attr("class", "stats")
-											.attr("id", id.replace("#", "")+"_stats")
-											.attr("width", sWidth)
-											.attr("height", cHeight)
-											.append("g");
+										outerWrap.append("div")
+											.attr("id", id.replace("#", "")+"_stat_wrap")
+											.attr("class", "individual_stat_wrap")
+											.append("h1").text("hello word").attr("class", "stat_h1")
+											.append("table")
+											.append("tr").append("td").text("Testing");
+										
+
+										// statSvg.select(document.getElementById(id+"_stat_wrap"))
+										// 	.append("svg")
+										// 	.attr("class", "stats")
+										// 	.attr("id", id.replace("#", "")+"_stats")
+										// 	.attr("width", sWidth)
+										// 	.attr("height", cHeight)
+										// 	.append("g");
 
 								} else {
 
@@ -348,7 +358,7 @@ function start() {
 										.style("stroke-width", null)
 										.attr("clicked", "F");
 
-									d3.select("#"+id.replace("#", "")+"_stats").remove();
+									d3.select(id.replace("#", "")+"_info_and_graph_wrap").remove();
 
 								}
 									// .attr("r", function(e) {

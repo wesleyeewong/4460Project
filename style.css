@@ -56,7 +56,11 @@ h2 {
   margin-bottom: 20px;
 }
 
-.stat_h1 {
-  display: inline-block;
+.stat_h1 {  
   width: 425;
+}
+
+.individual_stat_wrap {
+  float: left;
+  width: 50%;
 }
