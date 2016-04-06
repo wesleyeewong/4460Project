@@ -336,10 +336,22 @@ function start() {
 
 										outerWrap.append("div")
 											.attr("id", id.replace("#", "")+"_stat_wrap")
-											.attr("class", "individual_stat_wrap")
-											.append("h1").text("hello word").attr("class", "stat_h1")
-											.append("table")
-											.append("tr").append("td").text("Testing");
+											.attr("class", "individual_stat_wrap");
+
+										var innerStatWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
+
+										innerStatWrap.append("h1").text("hello word").attr("class", "stat_h1");
+
+										var table = innerStatWrap.append("table");
+										var homeRow = table.append("tr");
+										var awayRow = table.append("tr");
+										var homeGoals = table.append("tr");
+										var awayGoals = table.append("tr");
+
+										homeRow.append("td").html("Home W/L/D");
+										awayRow.append("td").html("Away W/L/D");
+										homeGoals.append("td").html("Home goals scored/conceded");
+										awayGoals.append("td").html("Away goals scored/conceded");
 										
 
 										// statSvg.select(document.getElementById(id+"_stat_wrap"))
@@ -358,7 +370,7 @@ function start() {
 										.style("stroke-width", null)
 										.attr("clicked", "F");
 
-									d3.select(id.replace("#", "")+"_info_and_graph_wrap").remove();
+									d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
 
 								}
 									// .attr("r", function(e) {
