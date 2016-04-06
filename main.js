@@ -28,6 +28,10 @@ function countWinLoss(d, rival) {
 	var total = 0;
 	var homeDate = [];
 	var awayDate = [];
+	var homeTotalGoalScored = 0;
+	var homeTotalGoalConceded = 0;
+	var awayTotalGoalScored = 0;
+	var awayTotalGoalConceded = 0;
 
 	d.forEach(function(e) {
 
@@ -42,6 +46,8 @@ function countWinLoss(d, rival) {
 				}
 				total += 1;
 				homeDate.push(e.Date);
+				homeTotalGoalScored += e.FTHG;
+				homeTotalGoalConceded += e.FTAG;
 			}
 			if (e.HomeTeam == rival && e.AwayTeam == "Arsenal") {
 				if (e.FTR == "A") {
@@ -53,6 +59,8 @@ function countWinLoss(d, rival) {
 				}
 				total += 1;
 				awayDate.push(e.Date);
+				awayTotalGoalScored += e.FTAG;
+				awayTotalGoalConceded += e.FTHG;
 			}
 		} else {
 			if (e.HomeTeam == "Arsenal" && ["Man United", "Tottenham"].indexOf(e.AwayTeam) == -1) {
@@ -82,7 +90,8 @@ function countWinLoss(d, rival) {
 	});
 
 	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
-		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hDate: homeDate, aDate: awayDate};
+		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hDate: homeDate, aDate: awayDate, 
+		homeTGS: homeTotalGoalScored, homeTGC: homeTotalGoalConceded, awayTGS: awayTotalGoalScored, awayTGC: awayTotalGoalConceded};
 }
 
 function start() {
@@ -355,10 +364,18 @@ function start() {
 										var awayGoals = table.append("tr");
 
 										homeRow.append("td").html("Home W/L/D");
+										homeRow.append("td").html(d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD);
 										awayRow.append("td").html("Away W/L/D");
+										awayRow.append("td").html(d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD)
 										homeGoals.append("td").html("Home goals scored/conceded");
+										homeGoals.append("td").html(d.manU.homeTGS + "/" + d.manU.homeTGC);
 										awayGoals.append("td").html("Away goals scored/conceded");
+										awayGoals.append("td").html(d.manU.awayTGS + "/" + d.manU.awayTGC);
 										// TABLE ENDS
+
+										// TODO: DATE LIST 
+
+										// END DATE LIST
 										
 
 										// statSvg.select(document.getElementById(id+"_stat_wrap"))
