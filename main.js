@@ -334,15 +334,21 @@ function start() {
 										statSvg.append("div").attr("id", id.replace("#", "")+"_info_and_graph_wrap").attr("class", "info_and_graph_wrap");
 										var outerWrap = d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap"));
 
+										// This div wraps 2 divs!
+										// First: Tha table div
+										// Second: Bar graph div
 										outerWrap.append("div")
 											.attr("id", id.replace("#", "")+"_stat_wrap")
 											.attr("class", "individual_stat_wrap");
 
-										var innerStatWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
+										// We want all table stuff to be in this div
+										var innerTableWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
 
-										innerStatWrap.append("h1").text("hello word").attr("class", "stat_h1");
 
-										var table = innerStatWrap.append("table");
+										// TABLE STARTS HERE
+										innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
+
+										var table = innerTableWrap.append("table");
 										var homeRow = table.append("tr");
 										var awayRow = table.append("tr");
 										var homeGoals = table.append("tr");
@@ -352,6 +358,7 @@ function start() {
 										awayRow.append("td").html("Away W/L/D");
 										homeGoals.append("td").html("Home goals scored/conceded");
 										awayGoals.append("td").html("Away goals scored/conceded");
+										// TABLE ENDS
 										
 
 										// statSvg.select(document.getElementById(id+"_stat_wrap"))
