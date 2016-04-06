@@ -6,12 +6,12 @@ Overall:
 0	- Organizing the data
 
 Main page:
-1	- Label axis 
-1	- Interaction (DoD, tooltip)
+1	- Label axis - Done
+1	- Interaction (DoD, tooltip) - Done
 3	- Connecting dots (optional)
-2	- Fixing margins/sizes
-2	- Better color
-3	- Filtering teams (optional)
+2	- Fixing margins/sizes - Done 
+2	- Better color - Done
+3	- Filtering teams (optional)- Done
 
 2nd Page:
 2	-make infographic 
