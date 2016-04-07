@@ -202,7 +202,6 @@ function start() {
 
 						// Calculate win/loss versus ManU
 						var vsManU1011 = countWinLoss(data1011, "Man United");
-						console.log(vsManU1011.hStats[0]);
 						var vsManU1112 = countWinLoss(data1112, "Man United");
 						var vsManU1213 = countWinLoss(data1213, "Man United");
 						var vsManU1314 = countWinLoss(data1314, "Man United");
