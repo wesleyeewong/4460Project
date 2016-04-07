@@ -26,8 +26,8 @@ function countWinLoss(d, rival) {
 	var awayLoss = 0;
 	var awayDraw = 0;
 	var total = 0;
-	var homeDate = [];
-	var awayDate = [];
+	var homeStats = [];
+	var awayStats = [];
 	var homeTotalGoalScored = 0;
 	var homeTotalGoalConceded = 0;
 	var awayTotalGoalScored = 0;
@@ -45,7 +45,14 @@ function countWinLoss(d, rival) {
 					homeDraw += 1;
 				}
 				total += 1;
-				homeDate.push(e.Date);
+
+				var statsObject = {
+					date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
+					homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
+					homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
+
+				homeStats.push(statsObject);
+
 				homeTotalGoalScored += e.FTHG;
 				homeTotalGoalConceded += e.FTAG;
 			}
@@ -58,7 +65,14 @@ function countWinLoss(d, rival) {
 					awayDraw += 1;
 				}
 				total += 1;
-				awayDate.push(e.Date);
+
+				var statsObject = {
+					date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
+					homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
+					homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
+
+				awayStats.push(statsObject);
+
 				awayTotalGoalScored += e.FTAG;
 				awayTotalGoalConceded += e.FTHG;
 			}
@@ -90,7 +104,7 @@ function countWinLoss(d, rival) {
 	});
 
 	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
-		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hDate: homeDate, aDate: awayDate, 
+		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hStats: homeStats, aStats: awayStats, 
 		homeTGS: homeTotalGoalScored, homeTGC: homeTotalGoalConceded, awayTGS: awayTotalGoalScored, awayTGC: awayTotalGoalConceded};
 }
 
@@ -188,6 +202,7 @@ function start() {
 
 						// Calculate win/loss versus ManU
 						var vsManU1011 = countWinLoss(data1011, "Man United");
+						console.log(vsManU1011.hStats[0]);
 						var vsManU1112 = countWinLoss(data1112, "Man United");
 						var vsManU1213 = countWinLoss(data1213, "Man United");
 						var vsManU1314 = countWinLoss(data1314, "Man United");
