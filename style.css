@@ -56,6 +56,18 @@ h2 {
   margin-bottom: 20px;
 }
 
+h1{
+	color: #98df8a;
+}
+
+td {
+  color: #98df8a;
+}
+
+tr {
+  color: #98df8a;
+}
+
 .stat_h1 {  
   width: 200;
 }

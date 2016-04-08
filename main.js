@@ -311,7 +311,7 @@ function start() {
 							.selectAll(".dot")
 							.data(parsedData)
 							.enter();
-
+							
 						manUDot.append("circle")
 							.attr("class", "dot manU")
 							.attr("id", function(d) {
@@ -369,9 +369,38 @@ function start() {
 
 
 										// TABLE STARTS HERE
-										innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
+										//innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
+										var table_title = d3.select(this).attr("id").replace("manU_", "ManU ").replace("_", "/");
 
-										var table = innerTableWrap.append("table");
+										var table_data = [ ["", "W/L/D", "scored/conceded"]
+														 ,["Home(date)", d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD, d.manU.homeTGS + "/" + d.manU.homeTGC]
+														 ,["Away (date)", d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD, d.manU.awayTGS + "/" + d.manU.awayTGC]
+														];
+														
+										innerTableWrap.append("table")
+													  //Table Title
+													  .append("h1")
+													  .style("background-color", "aliceblue")
+													  .text(table_title)
+													  .style("fill", "#2ca02c")
+													  .style("border", "2px black solid")
+													  //Filling Table Start
+													  .selectAll("tr")
+													  .data(table_data)
+													  .enter().append("tr")
+													  .selectAll("td")
+													  .data(function(d){return d;})
+													  .enter().append("td")
+													  .style("padding", "5px")
+													  .on("mouseover", function(){d3.select(this).style("background-color", "white")})
+													  .on("mouseout", function(){d3.select(this).style("background-color", "aliceblue")})
+													  .style("background-color", "aliceblue")
+													  .text(function(d){return d;})
+													  .style("fill", "#2ca02c")
+													  .style("font-size", "18px");
+													  
+													  
+										/*var table = innerTableWrap.append("table");
 										var homeRow = table.append("tr");
 										var awayRow = table.append("tr");
 										var homeGoals = table.append("tr");
@@ -384,7 +413,7 @@ function start() {
 										homeGoals.append("td").html("Home goals scored/conceded");
 										homeGoals.append("td").html(d.manU.homeTGS + "/" + d.manU.homeTGC);
 										awayGoals.append("td").html("Away goals scored/conceded");
-										awayGoals.append("td").html(d.manU.awayTGS + "/" + d.manU.awayTGC);
+										awayGoals.append("td").html(d.manU.awayTGS + "/" + d.manU.awayTGC);*/
 										// TABLE ENDS
 
 										// TODO: DATE LIST 
