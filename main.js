@@ -18,6 +18,73 @@ function turnToInt(d) {
 	d.AR = +d.AR;
 };
 
+function generateStatObject(d, team) {
+
+	var homeWin = 0;
+	var homeLoss = 0;
+	var homeDraw = 0;
+	var awayWin = 0;
+	var awayLoss = 0;
+	var awayDraw = 0;
+	var total = 0;
+	var homeStats = [];
+	var awayStats = [];
+	var homeTotalGoalScored = 0;
+	var homeTotalGoalConceded = 0;
+	var awayTotalGoalScored = 0;
+	var awayTotalGoalConceded = 0;
+
+	d.forEach(function(e) {
+
+		if (e.HomeTeam == team) {
+			if (e.FTR == "H") {
+				homeWin += 1;
+			} else if (e.FTR == "A") {
+				homeLoss += 1;
+			} else {
+				homeDraw += 1;
+			}
+			total += 1;
+
+			var statsObject = {
+				date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
+				homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
+				homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
+
+			homeStats.push(statsObject);
+
+			homeTotalGoalScored += e.FTHG;
+			homeTotalGoalConceded += e.FTAG;
+		}
+		if (e.AwayTeam == team) {
+			if (e.FTR == "A") {
+				awayWin += 1;
+			} else if (e.FTR == "H") {
+				awayLoss += 1;
+			} else {
+				awayDraw += 1;
+			}
+			total += 1;
+
+			var statsObject = {
+				date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
+				homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
+				homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
+
+			awayStats.push(statsObject);
+
+			awayTotalGoalScored += e.FTAG;
+			awayTotalGoalConceded += e.FTHG;
+		}
+
+	});
+
+	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
+		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hStats: homeStats, aStats: awayStats, 
+		homeTGS: homeTotalGoalScored, homeTGC: homeTotalGoalConceded, awayTGS: awayTotalGoalScored, awayTGC: awayTotalGoalConceded};
+
+}
+
 function countWinLoss(d, rival) {
 	var homeWin = 0;
 	var homeLoss = 0;
@@ -200,6 +267,31 @@ function start() {
 						// console.log(data1112.length);
 						// console.log(data1011.length);
 
+						// New data object, use this one instead
+						// Contains all the stats, and dates
+						// Please refer to generateStatObject function at the top too see additional stat it has
+
+						// Generate arsenal stats
+						var arsenalStat1011 = generateStatObject(data1011, "Arsenal");
+						var arsenalStat1112 = generateStatObject(data1112, "Arsenal");
+						var arsenalStat1213 = generateStatObject(data1213, "Arsenal");
+						var arsenalStat1314 = generateStatObject(data1314, "Arsenal");
+						var arsenalStat1415 = generateStatObject(data1415, "Arsenal");
+
+						// Generate man united stats
+						var manUnitedStat1011 = generateStatObject(data1011, "Man United");
+						var manUnitedStat1112 = generateStatObject(data1112, "Man United");
+						var manUnitedStat1213 = generateStatObject(data1213, "Man United");
+						var manUnitedStat1314 = generateStatObject(data1314, "Man United");
+						var manUnitedStat1415 = generateStatObject(data1415, "Man United");
+
+						// Generate tottenham stats
+						var tottenhamStat1011 = generateStatObject(data1011, "Tottenham");
+						var tottenhamStat1112 = generateStatObject(data1112, "Tottenham");
+						var tottenhamStat1213 = generateStatObject(data1213, "Tottenham");
+						var tottenhamStat1314 = generateStatObject(data1314, "Tottenham");
+						var tottenhamStat1415 = generateStatObject(data1415, "Tottenham");
+
 						// Calculate win/loss versus ManU
 						var vsManU1011 = countWinLoss(data1011, "Man United");
 						var vsManU1112 = countWinLoss(data1112, "Man United");
@@ -236,6 +328,34 @@ function start() {
 						// }];
 
 						var parsedData = [
+						{
+							key: "10/11 Season",
+							arsenal: arsenalStat1011,
+							manUnited: manUnitedStat1011,
+							tottenham: tottenhamStat1011
+						}, {
+							key: "11/12 Season",
+							arsenal: arsenalStat1112,
+							manUnited: manUnitedStat1112,
+							tottenham: tottenhamStat1112
+						}, {
+							key: "12/13 Season",
+							arsenal: arsenalStat1213,
+							manUnited: manUnitedStat1213,
+							tottenham: tottenhamStat1213
+						}, {
+							key: "13/14 Season",
+							arsenal: arsenalStat1314,
+							manUnited: manUnitedStat1314,
+							tottenham: tottenhamStat1314
+						}, {
+							key: "14/15 Season",
+							arsenal: arsenalStat1415,
+							manUnited: manUnitedStat1415,
+							tottenham: tottenhamStat1415
+						}];
+
+						var parsedDataOld = [
 						{
 							key: "10/11 Season",
 							manU: vsManU1011,
@@ -299,17 +419,17 @@ function start() {
 
 						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedData)
+							.data(parsedDataOld)
 							.enter();
 
 						var tottDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedData)
+							.data(parsedDataOld)
 							.enter();
 
 						var otherDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedData)
+							.data(parsedDataOld)
 							.enter();
 							
 						manUDot.append("circle")
