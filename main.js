@@ -229,6 +229,14 @@ function start() {
 	var yMapTott = function(d) { return yScale(yValueTott(d)); };
 	var yMapOther = function(d) { return yScale(yValueOther(d)); };
 
+	// New y Setup
+	var yValueArsenal = function(d) { return ((d.arsenal.homeW + d.arsenal.awayW)*3 + d.arsenal.homeD + d.arsenal.awayD); };
+	var yValueManUnited = function(d) { return ((d.manUnited.homeW + d.manUnite.awayW)*3 + d.manUnited.homeD + d.manUnited.awayD); };
+	var yValueTottenham = function(d) { return ((d.tottenham.homeW + d.tottenham.awayW)*3 + d.tottenham.homeD + d.tottenham.awayD); };
+	var yMapArsenal = function(d) { return yScale(yValueArsenal(d)); };
+	var yMapManUnited = function(d) { return yScale(yValueManUnited(d)); };
+	var yMapTottenham = function(d) { return yScale(yValueTottenham(d)); };
+
 	// Color
 	var color = d3.scale.ordinal().range(["#d62728", "#636363", "#1f77b4"]);
 	// END LINE GRAPH
