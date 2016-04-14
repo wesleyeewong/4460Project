@@ -231,14 +231,14 @@ function start() {
 
 	// New y Setup
 	var yValueArsenal = function(d) { return ((d.arsenal.homeW + d.arsenal.awayW)*3 + d.arsenal.homeD + d.arsenal.awayD); };
-	var yValueManUnited = function(d) { return ((d.manUnited.homeW + d.manUnite.awayW)*3 + d.manUnited.homeD + d.manUnited.awayD); };
+	var yValueManUnited = function(d) { return ((d.manUnited.homeW + d.manUnited.awayW)*3 + d.manUnited.homeD + d.manUnited.awayD); };
 	var yValueTottenham = function(d) { return ((d.tottenham.homeW + d.tottenham.awayW)*3 + d.tottenham.homeD + d.tottenham.awayD); };
 	var yMapArsenal = function(d) { return yScale(yValueArsenal(d)); };
 	var yMapManUnited = function(d) { return yScale(yValueManUnited(d)); };
 	var yMapTottenham = function(d) { return yScale(yValueTottenham(d)); };
 
 	// Color
-	var color = d3.scale.ordinal().range(["#d62728", "#636363", "#1f77b4"]);
+	var color = d3.scale.ordinal().range(["#d62728", "#FFFFFF", "#C49E57"]);
 	// END LINE GRAPH
 
 	// add tooltip area 
@@ -396,7 +396,7 @@ function start() {
 							// console.log(d);
 							return d;
 						}));
-						yScale.domain([0, 8]);
+						yScale.domain([0, 95]);
 
 						// Drawing x and y axis
 						lineSvg.append("g")
@@ -427,17 +427,20 @@ function start() {
 
 						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedDataOld)
+							// .data(parsedDataOld)
+							.data(parsedData)
 							.enter();
 
 						var tottDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedDataOld)
+							// .data(parsedDataOld)
+							.data(parsedData)
 							.enter();
 
 						var otherDot = lineSvg.append("g")
 							.selectAll(".dot")
-							.data(parsedDataOld)
+							// .data(parsedDataOld)
+							.data(parsedData)
 							.enter();
 							
 						manUDot.append("circle")
@@ -451,13 +454,13 @@ function start() {
 								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {
-								return yMapManU(d) + yOffset;
+								return yMapManUnited(d) + yOffset;
 							})
 							.attr("fill", color("manU"))
 							.on("mouseover", function(d) {
 
 								tooltip.style("opacity", 1)
-								tooltip.html("<b>Manchester United</b> <br/>" + "Home W/L/D: " + d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD + "<br/> Away W/L/D&nbsp: " + d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD )
+								tooltip.html("<b>Manchester United</b> <br/>" + "Home W/L/D: " + d.manUnited.homeW + "/" + d.manUnited.homeL + "/" + d.manUnited.homeD + "<br/> Away W/L/D&nbsp: " + d.manUnited.awayW + "/" + d.manUnited.awayL+ "/" + d.manUnited.awayD )
 									.style("left", d3.event.pageX + 3 + "px")
 									.style("top", d3.event.pageY + 3 + "px");
 
@@ -501,8 +504,8 @@ function start() {
 										var table_title = d3.select(this).attr("id").replace("manU_", "ManU ").replace("_", "/");
 
 										var table_data = [ ["", "W/L/D", "scored/conceded"]
-														 ,["Home(date)", d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD, d.manU.homeTGS + "/" + d.manU.homeTGC]
-														 ,["Away (date)", d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD, d.manU.awayTGS + "/" + d.manU.awayTGC]
+														 ,["Home(date)", d.manUnited.homeW + "/" + d.manUnited.homeL + "/" + d.manUnited.homeD, d.manUnited.homeTGS + "/" + d.manUnited.homeTGC]
+														 ,["Away (date)", d.manUnited.awayW + "/" + d.manUnited.awayL+ "/" + d.manUnited.awayD, d.manUnited.awayTGS + "/" + d.manUnited.awayTGC]
 														];
 														
 										innerTableWrap.append("table")
@@ -602,13 +605,13 @@ function start() {
 								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {	
-								return yMapTott(d) + yOffset;
+								return yMapTottenham(d) + yOffset;
 							})
 							.attr("fill", color("tott"))
 							.on("mouseover", function(d) {
 
 								tooltip.style("opacity", 1)
-								tooltip.html("<b>Tottenham</b> <br/>" + "Home W/L/D: " + d.tott.homeW + "/" + d.tott.homeL + "/" + d.tott.homeD + "<br/> Away W/L/D: " + d.tott.awayW + "/" + d.tott.awayL+ "/" + d.tott.awayD )
+								tooltip.html("<b>Tottenham</b> <br/>" + "Home W/L/D: " + d.tottenham.homeW + "/" + d.tottenham.homeL + "/" + d.tottenham.homeD + "<br/> Away W/L/D: " + d.tottenham.awayW + "/" + d.tottenham.awayL+ "/" + d.tottenham.awayD )
 									.style("left", d3.event.pageX + 3 + "px")
 									.style("top", d3.event.pageY + 3 + "px");
 
@@ -684,7 +687,7 @@ function start() {
 							});
 
 						otherDot.append("circle")
-							.attr("class", "dot other")
+							.attr("class", "dot ars")
 							.attr("clicked", "F")
 							.attr("id", function(d) {
 								return "other_" + d.key.replace(" Season", "").replace("/", "_");
@@ -694,13 +697,13 @@ function start() {
 								return xMap(d) + xOffset + 50;
 							})
 							.attr("cy", function(d) {
-								return yMapOther(d) + yOffset;
+								return yMapArsenal(d) + yOffset;
 							})
 							.attr("fill", color("other"))
 							.on("mouseover", function(d) {
 
 								tooltip.style("opacity", 1)
-								tooltip.html("<b>Remaining average</b> <br/>" + "Home W/L/D: " + d.other.homeW + "/" + d.other.homeL + "/" + d.other.homeD + "<br/> Away W/L/D: " + d.other.awayW + "/" + d.other.awayL + "/" + d.other.awayD )
+								tooltip.html("<b>Arsenal</b> <br/>" + "Home W/L/D: " + d.arsenal.homeW + "/" + d.arsenal.homeL + "/" + d.arsenal.homeD + "<br/> Away W/L/D: " + d.arsenal.awayW + "/" + d.arsenal.awayL + "/" + d.arsenal.awayD )
 									.style("left", d3.event.pageX + 3 + "px")
 									.style("top", d3.event.pageY + 3 + "px");
 
