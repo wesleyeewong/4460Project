@@ -1,0 +1,367 @@
+Date,HomeTeam,AwayTeam,HG,AG,MATCH
+14/08/2010,Tottenham,Man City,0,0,D
+15/08/2010,Liverpool,Arsenal,1,1,D
+16/08/2010,Man United,Newcastle,3,0,H
+21/08/2010,Arsenal,Blackpool,6,0,H
+21/08/2010,Stoke,Tottenham,1,2,A
+22/08/2010,Fulham,Man United,2,2,D
+28/08/2010,Blackburn,Arsenal,1,2,A
+28/08/2010,Man United,West Ham,3,0,H
+28/08/2010,Tottenham,Wigan,0,1,A
+11/9/2010,Arsenal,Bolton,4,1,H
+11/9/2010,Everton,Man United,3,3,D
+11/9/2010,West Brom,Tottenham,1,1,D
+18/09/2010,Sunderland,Arsenal,1,1,D
+18/09/2010,Tottenham,Wolves,3,1,H
+19/09/2010,Man United,Liverpool,3,2,H
+25/09/2010,Arsenal,West Brom,2,3,A
+25/09/2010,West Ham,Tottenham,1,0,H
+26/09/2010,Bolton,Man United,2,2,D
+2/10/2010,Sunderland,Man United,0,0,D
+2/10/2010,Tottenham,Aston Villa,2,1,H
+3/10/2010,Chelsea,Arsenal,2,0,H
+16/10/2010,Arsenal,Birmingham,2,1,H
+16/10/2010,Fulham,Tottenham,1,2,A
+16/10/2010,Man United,West Brom,2,2,D
+23/10/2010,Tottenham,Everton,1,1,D
+24/10/2010,Man City,Arsenal,0,3,A
+24/10/2010,Stoke,Man United,1,2,A
+30/10/2010,Arsenal,West Ham,1,0,H
+30/10/2010,Man United,Tottenham,2,0,H
+6/11/2010,Bolton,Tottenham,4,2,H
+6/11/2010,Man United,Wolves,2,1,H
+7/11/2010,Arsenal,Newcastle,0,1,A
+9/11/2010,Tottenham,Sunderland,1,1,D
+10/11/2010,Man City,Man United,0,0,D
+10/11/2010,Wolves,Arsenal,0,2,A
+13/11/2010,Aston Villa,Man United,2,2,D
+13/11/2010,Tottenham,Blackburn,4,2,H
+14/11/2010,Everton,Arsenal,1,2,A
+20/11/2010,Arsenal,Tottenham,2,3,A
+20/11/2010,Man United,Wigan,2,0,H
+27/11/2010,Aston Villa,Arsenal,2,4,A
+27/11/2010,Man United,Blackburn,7,1,H
+28/11/2010,Tottenham,Liverpool,2,1,H
+4/12/2010,Arsenal,Fulham,2,1,H
+4/12/2010,Birmingham,Tottenham,1,1,D
+12/12/2010,Tottenham,Chelsea,1,1,D
+13/12/2010,Man United,Arsenal,1,0,H
+26/12/2010,Aston Villa,Tottenham,1,2,A
+26/12/2010,Man United,Sunderland,2,0,H
+27/12/2010,Arsenal,Chelsea,3,1,H
+28/12/2010,Birmingham,Man United,1,1,D
+28/12/2010,Tottenham,Newcastle,2,0,H
+29/12/2010,Wigan,Arsenal,2,2,D
+1/1/2011,Birmingham,Arsenal,0,3,A
+1/1/2011,Tottenham,Fulham,1,0,H
+1/1/2011,West Brom,Man United,1,2,A
+4/1/2011,Man United,Stoke,2,1,H
+5/1/2011,Arsenal,Man City,0,0,D
+5/1/2011,Everton,Tottenham,2,1,H
+15/01/2011,West Ham,Arsenal,0,3,A
+16/01/2011,Tottenham,Man United,0,0,D
+22/01/2011,Arsenal,Wigan,3,0,H
+22/01/2011,Man United,Birmingham,5,0,H
+22/01/2011,Newcastle,Tottenham,1,1,D
+25/01/2011,Blackpool,Man United,2,3,A
+1/2/2011,Arsenal,Everton,2,1,H
+1/2/2011,Man United,Aston Villa,3,1,H
+2/2/2011,Blackburn,Tottenham,0,1,A
+5/2/2011,Newcastle,Arsenal,4,4,D
+5/2/2011,Tottenham,Bolton,2,1,H
+5/2/2011,Wolves,Man United,2,1,H
+12/2/2011,Arsenal,Wolves,2,0,H
+12/2/2011,Man United,Man City,2,1,H
+12/2/2011,Sunderland,Tottenham,1,2,A
+22/02/2011,Blackpool,Tottenham,3,1,H
+23/02/2011,Arsenal,Stoke,1,0,H
+26/02/2011,Wigan,Man United,0,4,A
+1/3/2011,Chelsea,Man United,2,1,H
+5/3/2011,Arsenal,Sunderland,0,0,D
+6/3/2011,Liverpool,Man United,3,1,H
+6/3/2011,Wolves,Tottenham,3,3,D
+19/03/2011,Man United,Bolton,1,0,H
+19/03/2011,Tottenham,West Ham,0,0,D
+19/03/2011,West Brom,Arsenal,2,2,D
+2/4/2011,Arsenal,Blackburn,0,0,D
+2/4/2011,West Ham,Man United,2,4,A
+2/4/2011,Wigan,Tottenham,0,0,D
+9/4/2011,Man United,Fulham,2,0,H
+9/4/2011,Tottenham,Stoke,3,2,H
+10/4/2011,Blackpool,Arsenal,1,3,A
+17/04/2011,Arsenal,Liverpool,1,1,D
+19/04/2011,Newcastle,Man United,0,0,D
+20/04/2011,Tottenham,Arsenal,3,3,D
+23/04/2011,Man United,Everton,1,0,H
+23/04/2011,Tottenham,West Brom,2,2,D
+24/04/2011,Bolton,Arsenal,2,1,H
+30/04/2011,Chelsea,Tottenham,2,1,H
+1/5/2011,Arsenal,Man United,1,0,H
+7/5/2011,Tottenham,Blackpool,1,1,D
+8/5/2011,Man United,Chelsea,2,1,H
+8/5/2011,Stoke,Arsenal,3,1,H
+10/5/2011,Man City,Tottenham,1,0,H
+14/05/2011,Blackburn,Man United,1,1,D
+15/05/2011,Arsenal,Aston Villa,1,2,A
+15/05/2011,Liverpool,Tottenham,0,2,A
+22/05/2011,Fulham,Arsenal,2,2,D
+22/05/2011,Man United,Blackpool,4,2,H
+22/05/2011,Tottenham,Birmingham,2,1,H
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
