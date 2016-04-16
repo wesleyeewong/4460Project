@@ -337,21 +337,6 @@ function RadarChart(id, data, options) {
 		.attr("class", "tooltip")
 		.style("opacity", 0);
 
-
-	var svg = d3.select('#body')
-	.selectAll('svg')
-	.append('svg')
-	.attr("width", w+300)
-	.attr("height", h)
-
-	var text = svg.append("text")
-	.attr("class", "title")
-	.attr('transform', 'translate(90,0)') 
-	.attr("x", w - 70)
-	.attr("y", 10)
-	.attr("font-size", "12px")
-	.attr("fill", "#404040")
-	.text("14/08/10 Aston Villa vs West Ham");
 	
 	/////////////////////////////////////////////////////////
 	/////////////////// Helper Function /////////////////////
