@@ -12,23 +12,23 @@ height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
 
 data = [
 		  [//home
-			{axis:"FTHG/FTAG",value:0.16},
-			{axis:"HTHG/HTAG",value:0.35},
+			{axis:"Full time goal",value:0.16},
+			{axis:"Half time goal",value:0.35},
 			{axis:"Shot",value:0.13},
-			{axis:"ST",value:0.20},
+			{axis:"Shots on target",value:0.20},
 			{axis:"Foul",value:0.13},
-			{axis:"C",value:0.35},
-			{axis:"Y",value:0.38},
-			{axis:"R",value:0.38}
+			{axis:"Corner",value:0.35},
+			{axis:"Yellow card",value:0.38},
+			{axis:"Red card",value:0.38}
 		  ],[//away
-			{axis:"FTHG/FTAG",value:0.10},
-			{axis:"HTHG/HTAG",value:0.30},
+			{axis:"Full time goal",value:0.10},
+			{axis:"Half time goal",value:0.30},
 			{axis:"Shot",value:0.14},
-			{axis:"ST",value:0.22},
+			{axis:"Shots on target",value:0.22},
 			{axis:"Foul",value:0.04},
-			{axis:"C",value:0.41},
-			{axis:"Y",value:0.30},
-			{axis:"R",value:0.38}
+			{axis:"Corne",value:0.41},
+			{axis:"Yellow card",value:0.30},
+			{axis:"Red card",value:0.38}
 		  ]
 		];
 ////////////////////////////////////////////////////////////// 
