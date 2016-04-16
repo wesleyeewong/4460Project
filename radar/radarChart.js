@@ -16,7 +16,7 @@ data = [
 			{axis:"HTHG/HTAG",value:0.35},
 			{axis:"Shot",value:0.13},
 			{axis:"ST",value:0.20},
-			{axis:"F",value:0.13},
+			{axis:"Foul",value:0.13},
 			{axis:"C",value:0.35},
 			{axis:"Y",value:0.38},
 			{axis:"R",value:0.38}
@@ -25,7 +25,7 @@ data = [
 			{axis:"HTHG/HTAG",value:0.30},
 			{axis:"Shot",value:0.14},
 			{axis:"ST",value:0.22},
-			{axis:"F",value:0.04},
+			{axis:"Foul",value:0.04},
 			{axis:"C",value:0.41},
 			{axis:"Y",value:0.30},
 			{axis:"R",value:0.38}

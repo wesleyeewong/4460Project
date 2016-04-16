@@ -14,7 +14,7 @@ data = [
 		  [//home
 			{axis:"FTHG/FTAG",value:0.16},
 			{axis:"HTHG/HTAG",value:0.35},
-			{axis:"S",value:0.13},
+			{axis:"Shot",value:0.13},
 			{axis:"ST",value:0.20},
 			{axis:"F",value:0.13},
 			{axis:"C",value:0.35},
@@ -23,7 +23,7 @@ data = [
 		  ],[//away
 			{axis:"FTHG/FTAG",value:0.10},
 			{axis:"HTHG/HTAG",value:0.30},
-			{axis:"S",value:0.14},
+			{axis:"Shot",value:0.14},
 			{axis:"ST",value:0.22},
 			{axis:"F",value:0.04},
 			{axis:"C",value:0.41},
