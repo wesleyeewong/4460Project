@@ -7,7 +7,7 @@ body {
 }
 
 #graph {
-  margin: 0;
+  margin-top: 100px;
   width: 900px;
   float: left;
 }
@@ -51,4 +51,12 @@ body {
   pointer-events: none;
   text-align: left;
   opacity: .25;
+}
+
+.stats_table_row {
+  float: left;
+  margin: 10px;
+  padding: 6px;
+  background-color:black;
+  font-size: 15px;
 }

@@ -85,6 +85,44 @@ function generateStatObject(d, team) {
 
 }
 
+function totalStats(d) {
+
+	var totalShots = 0;
+	var totalShotsOnTarget = 0;
+	var totalFouls = 0;
+	var totalCorners = 0;
+	var totalYellows = 0;
+	var totalReds = 0;
+	var stats = [];
+
+	d.aStats.forEach(function(e) {
+		totalShots += e.awayShots;
+		totalShotsOnTarget += e.awayShotsOnTarget;
+		totalFouls += e.awayFoul;
+		totalCorners += e.awayCorner;
+		totalYellows += e.awayYellow;
+		totalReds += e.awayRed;
+	});
+	d.hStats.forEach(function(e) {
+		totalShots += e.homeShots
+		totalShotsOnTarget += e.homeShotsOnTarget;
+		totalFouls += e.homeFoul;
+		totalCorners += e.homeCorner;
+		totalYellows += e.homeYellow;
+		totalReds += e.homeRed;
+	});
+
+	stats.push({key:"tShots", value:totalShots});
+	stats.push({key:"tShotsOnTarget", value:totalShotsOnTarget});
+	stats.push({key:"tFouls", value:totalFouls});
+	stats.push({key:"tCorners", value:totalCorners});
+	stats.push({key:"tYellows", value:totalYellows});
+	stats.push({key:"tReds", value:totalReds});
+
+	return stats;
+
+}
+
 function countWinLoss(d, rival) {
 	var homeWin = 0;
 	var homeLoss = 0;
@@ -182,7 +220,7 @@ function start() {
 
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
-	var cWidth = 850;
+	var cWidth = 800;
 	var sWidth = cWidth/2;
 	var cHeight = 750;
 	var width = 850 - margin.left - margin.right;
@@ -192,8 +230,10 @@ function start() {
 	var totalSeasons = 5;
 	var totalGamesPerSeason = 380;
 	var totalTeamsInLeague = 20;
+	var gamesPlayedPerTeam = 38;
 	var targetTeams = ["Arsenal", "Tottenham", "Man United"];
 	var targetSeason = ["10/11 Season", "11/12 Season", "12/13 Season", "13/14 Season", "14/15 Season"];
+	var statsList = ["Shots", "Shots On Target", "Fouls", "Corners", "Yellow Cards", "Red Cards"];
 	var circleRadius = 10;
 	var legendSlection = 5;
 	var dotSelection = 6;
@@ -206,9 +246,63 @@ function start() {
 		.attr("height", cHeight)
 		.append("g");
 
+	var statsTable = d3.select(stats);
+
+	statsTable.append("h2").attr("id", "stats_title").text("Season averaged stats");
+
+	// var table = statsTable.append("table")
+	// 	.attr("id", "stats_table")
+	// 	.selectAll(".stats_table_row")
+	// 	.data(statsList)
+	// 	.enter();
+	// var tableRow = table.append("tr")
+	// 	.attr("class", function(d) { return "stats_table_row" + " " + d.replace("Shots", "tShots").replace(" On Target", "OnTarget").replace("F", "tF").replace("C", "tC").replace("Yellow Cards", "tYellows").replace("Red Cards", "tReds"); })
+	// 	.attr("clicked", "F")
+	// 	.attr("id", function(d) {
+	// 		return d.replace(" ", "_").replace(" ", "_");
+	// 	})
+	// 	.text(function(d) { return d; })
+	// 	.on("click", function(d) {
+	// 		if (d3.select(this).attr("clicked") == "F") {
+	// 			d3.select(this).attr("clicked", "T");
+	// 			console.log(d3.select(this).attr("class").replace("stats_table_row ", "."));
+	// 			var className = d3.select(this).attr("class").replace("stats_table_row ", ".");
+	// 			d3.selectAll(className);
+	// 		}
+	// 		else {
+	// 			d3.select(this).attr("clicked", "F");
+	// 			d3.selectAll(d3.select(this).attr("class").replace("stats_table_row", "")).style("display", "block");
+	// 		}
+	// 	});
+
+	var statsSvg = statsTable.append("svg")
+		.attr("width", cWidth)
+		.attr("height", cHeight)
+		.append("g");
+
 	// X and Y scalings
 	var xScale = d3.scale.ordinal().rangeRoundBands([0, width], 0.3);
 	var yScale = d3.scale.linear().range([height, 0]);
+
+	// X and Y bar stats scalings
+	var xBarScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarShotsScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarShotsOnTargetScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarFoulsScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarCornersScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarYellowsScale = d3.scale.linear().range([0, (width/3)]);
+	var xBarRedsScale = d3.scale.linear().range([0, (width/3)]);
+	var yBarScale = d3.scale.ordinal().rangeRoundBands([(height/3), 0], 0.5);
+
+	// X and Y bar axis
+	var xBarAxis = d3.svg.axis().scale(xBarScale).orient("bottom");
+	var xBarShotsAxis = d3.svg.axis().scale(xBarShotsScale).orient("bottom");
+	var xBarShotsOnTargetAxis = d3.svg.axis().scale(xBarShotsOnTargetScale).orient("bottom");
+	var xBarFoulsAxis = d3.svg.axis().scale(xBarFoulsScale).orient("bottom");
+	var xBarCornersAxis = d3.svg.axis().scale(xBarCornersScale).orient("bottom");
+	var xBarYellowsAxis = d3.svg.axis().scale(xBarYellowsScale).orient("bottom");
+	var xBarRedsAxis = d3.svg.axis().scale(xBarRedsScale).orient("bottom");
+	var yBarAxis = d3.svg.axis().scale(yBarScale).orient("left").tickFormat("");
 
 	// Axis
 	var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -240,10 +334,6 @@ function start() {
 	// Color
 	var color = d3.scale.ordinal().range(["#d62728", "#FFFFFF", "#C49E57"]);
 	// END LINE GRAPH
-
-	var statList = ["Shots", "Shots on Target", "Fouls", "Corner", "Yellow Card", "Red Card"]
-
-	
 
 	// add tooltip area 
 	var tooltip = d3.select("body").append("div")
@@ -400,7 +490,18 @@ function start() {
 							// console.log(d);
 							return d;
 						}));
-						yScale.domain([0, 95]);
+						yScale.domain([55, 95]);
+
+						yBarScale.domain(targetTeams.map(function(d) {
+							return d;
+						}));
+						xBarScale.domain([0,20]);
+						xBarShotsScale.domain([0,20]);
+						xBarShotsOnTargetScale.domain([0,14]);
+						xBarFoulsScale.domain([0,16]);
+						xBarCornersScale.domain([0,12]);
+						xBarYellowsScale.domain([0,6]);
+						xBarRedsScale.domain([0,1]);
 
 						// Drawing x and y axis
 						lineSvg.append("g")
@@ -409,7 +510,7 @@ function start() {
 							.call(xAxis)
 							.attr("fill", "white")
 							.append("text")
-							.attr("x", 795 )
+							.attr("x", 775 )
 							.attr("y", 28 )
 							.attr("text-anchor", "end")  // this makes it easy to centre the text as the transform is applied to the anchor
 							.text("Seasons");
@@ -427,7 +528,9 @@ function start() {
 							.attr("dy", ".71em")
 							.attr("fill", "white")
 							.style("text-anchor", "end")
-							.text("Win-Rate");
+							.text("Points");
+
+						
 
 						var bars = lineSvg.append("g")
 							.selectAll(".bar")
@@ -454,6 +557,228 @@ function start() {
 								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).transition().duration(250).style("opacity", 0);
 							})
 							.on("click", function(d) {
+
+								statsTable.select("#stats_title")
+									.text(d.key + " averaged stats");
+
+								statsSvg.selectAll("*").remove();
+								
+								var arsenalTotalStats = totalStats(d.arsenal);
+								var manUnitedTotalStats = totalStats(d.manUnited);
+								var tottenhamTotalStats = totalStats(d.tottenham);
+								console.log(arsenalTotalStats);
+
+								// Arsenal bars
+								var arsenal = statsSvg.append("g")
+									.selectAll(".arsenal")
+									.data(arsenalTotalStats)
+									.enter();
+								arsenal.append("rect")
+									.attr("class", function(d) { return d.key + " " + "arsenal"; })
+									// .attr("id", function(d) { return d.key; })
+									.attr("x", 0)
+									.attr("y", function(d) {
+										return yBarScale("Arsenal");
+									})
+									// .attr("width", function(d) {
+									// 	return xBarScale((d.value/gamesPlayedPerTeam));
+									// })
+									.attr("height", 30)
+									.attr("fill", color("other"));
+
+								// Tottenham bars
+								var tottenham = statsSvg.append("g")
+									.selectAll(".tottenham")
+									.data(tottenhamTotalStats)
+									.enter(); 
+								tottenham.append("rect")
+									.attr("class", function(d) { return d.key + " " + "tottenham"; })
+									// .attr("id", function(d) { return d.key; })
+									.attr("x", 0)
+									.attr("y", function(d) {
+										return yBarScale("Tottenham");
+									})
+									// .attr("width", function(d) {
+									// 	return xBarScale((d.value/gamesPlayedPerTeam));
+									// })
+									.attr("height", 30)
+									.attr("fill", color("tott"));
+
+								// Manchester United bar
+								var manUnited = statsSvg.append("g")
+									.selectAll(".manUnited")
+									.data(manUnitedTotalStats)
+									.enter()
+								manUnited.append("rect")
+									.attr("class", function(d) { return d.key + " " + "manUnited"; })
+									// .attr("id", function(d) { return d.key; })
+									.attr("x", 0)
+									.attr("y", function(d) {
+										return yBarScale("Man United");
+									})
+									// .attr("width", function(d) {
+									// 	return xBarScale((d.value/gamesPlayedPerTeam));
+									// })
+									.attr("height", 30)
+									.attr("fill", color("manU"));
+
+								// Adjust bars
+								var shots = statsSvg.selectAll(".tShots")
+									.attr("transform", "translate("+xOffset+", "+yOffset+")")
+									.attr("width", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
+									});
+								var shotsOnTarget = statsSvg.selectAll(".tShotsOnTarget")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+yOffset+")")
+									.attr("width", function(d) {
+										return xBarShotsOnTargetScale((d.value/gamesPlayedPerTeam));
+									});
+								var fouls = statsSvg.selectAll(".tFouls")
+									.attr("transform", "translate("+xOffset+", "+(yOffset+(height/3)+40)+")")
+									.attr("width", function(d) {
+										return xBarFoulsScale((d.value/gamesPlayedPerTeam));
+									});
+								var corners = statsSvg.selectAll(".tCorners")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+(height/3)+40)+")")
+									.attr("width", function(d) {
+										return xBarCornersScale((d.value/gamesPlayedPerTeam));
+									});
+								var yellows = statsSvg.selectAll(".tYellows")
+									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*2)+80)+")")
+									.attr("width", function(d) {
+										return xBarYellowsScale((d.value/gamesPlayedPerTeam));
+									});
+								var reds = statsSvg.selectAll(".tReds")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*2)+80)+")")
+									.attr("width", function(d) {
+										return xBarRedsScale((d.value/gamesPlayedPerTeam));
+									})
+
+
+								// Left side
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "s_y-axis")
+								// 	.attr("transform", "translate("+xOffset+", "+yOffset+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tShots")
+									.attr("id", "s_x-axis")
+									.attr("transform", "translate("+xOffset+", "+(yOffset+(height/3))+")")
+									.call(xBarShotsAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Shots");
+
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "F_y-axis")
+								// 	.attr("transform", "translate("+xOffset+", "+(yOffset+(height/3)+40)+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tFouls")
+									.attr("id", "F_x-axis")
+									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*2)+40)+")")
+									.call(xBarFoulsAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Fouls");
+
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "Y_y-axis")
+								// 	.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*2)+80)+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tYellows")
+									.attr("id", "Y_x-axis")
+									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*3)+80)+")")
+									.call(xBarYellowsAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Yellow Cards");
+
+								// Right side
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "SOT_y-axis")
+								// 	.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+yOffset+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tShotsOnTarget")
+									.attr("id", "SOT_x-axis")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+(height/3))+")")
+									.call(xBarShotsOnTargetAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Shots On Target");
+
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "C_y-axis")
+								// 	.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+(height/3)+40)+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tCorners")
+									.attr("id", "C_x-axis")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*2)+40)+")")
+									.call(xBarCornersAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Corners");
+
+								// statsSvg.append("g")
+								// 	.attr("class", "y-axis")
+								// 	.attr("id", "R_y-axis")
+								// 	.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*2)+80)+")")
+								// 	.call(yBarAxis)
+								// 	.attr("fill", "white");
+
+								statsSvg.append("g")
+									.attr("class", "x-axis tReds")
+									.attr("id", "R_x-axis")
+									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*3)+80)+")")
+									.call(xBarRedsAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", 0)
+									.attr("y", -185)
+									.style("font-size", 15)
+									.attr("class", "statsHeader")
+									.text("Red Cards");
+
+								// Arsenal Bars
+								
 
 							});
 
@@ -519,50 +844,50 @@ function start() {
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
 
-										statSvg.append("div").attr("id", id.replace("#", "")+"_info_and_graph_wrap").attr("class", "info_and_graph_wrap");
-										var outerWrap = d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap"));
+										// statSvg.append("div").attr("id", id.replace("#", "")+"_info_and_graph_wrap").attr("class", "info_and_graph_wrap");
+										// var outerWrap = d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap"));
 
-										// This div wraps 2 divs!
-										// First: Tha table div
-										// Second: Bar graph div
-										outerWrap.append("div")
-											.attr("id", id.replace("#", "")+"_stat_wrap")
-											.attr("class", "individual_stat_wrap");
+										// // This div wraps 2 divs!
+										// // First: Tha table div
+										// // Second: Bar graph div
+										// outerWrap.append("div")
+										// 	.attr("id", id.replace("#", "")+"_stat_wrap")
+										// 	.attr("class", "individual_stat_wrap");
 
-										// We want all table stuff to be in this div
-										var innerTableWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
+										// // We want all table stuff to be in this div
+										// var innerTableWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
 
 
-										// TABLE STARTS HERE
-										//innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
-										var table_title = d3.select(this).attr("id").replace("manU_", "ManU ").replace("_", "/");
+										// // TABLE STARTS HERE
+										// //innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
+										// var table_title = d3.select(this).attr("id").replace("manU_", "ManU ").replace("_", "/");
 
-										var table_data = [ ["", "W/L/D", "scored/conceded"]
-														 ,["Home(date)", d.manUnited.homeW + "/" + d.manUnited.homeL + "/" + d.manUnited.homeD, d.manUnited.homeTGS + "/" + d.manUnited.homeTGC]
-														 ,["Away (date)", d.manUnited.awayW + "/" + d.manUnited.awayL+ "/" + d.manUnited.awayD, d.manUnited.awayTGS + "/" + d.manUnited.awayTGC]
-														];
+										// var table_data = [ ["", "W/L/D", "scored/conceded"]
+										// 				 ,["Home(date)", d.manUnited.homeW + "/" + d.manUnited.homeL + "/" + d.manUnited.homeD, d.manUnited.homeTGS + "/" + d.manUnited.homeTGC]
+										// 				 ,["Away (date)", d.manUnited.awayW + "/" + d.manUnited.awayL+ "/" + d.manUnited.awayD, d.manUnited.awayTGS + "/" + d.manUnited.awayTGC]
+										// 				];
 														
-										innerTableWrap.append("table")
-													  //Table Title
-													  .append("h1")
-													  .style("background-color", "aliceblue")
-													  .text(table_title)
-													  .style("fill", "#2ca02c")
-													  .style("border", "2px black solid")
-													  //Filling Table Start
-													  .selectAll("tr")
-													  .data(table_data)
-													  .enter().append("tr")
-													  .selectAll("td")
-													  .data(function(d){return d;})
-													  .enter().append("td")
-													  .style("padding", "5px")
-													  .on("mouseover", function(){d3.select(this).style("background-color", "white")})
-													  .on("mouseout", function(){d3.select(this).style("background-color", "aliceblue")})
-													  .style("background-color", "aliceblue")
-													  .text(function(d){return d;})
-													  .style("fill", "#2ca02c")
-													  .style("font-size", "18px");
+										// innerTableWrap.append("table")
+										// 			  //Table Title
+										// 			  .append("h1")
+										// 			  .style("background-color", "aliceblue")
+										// 			  .text(table_title)
+										// 			  .style("fill", "#2ca02c")
+										// 			  .style("border", "2px black solid")
+										// 			  //Filling Table Start
+										// 			  .selectAll("tr")
+										// 			  .data(table_data)
+										// 			  .enter().append("tr")
+										// 			  .selectAll("td")
+										// 			  .data(function(d){return d;})
+										// 			  .enter().append("td")
+										// 			  .style("padding", "5px")
+										// 			  .on("mouseover", function(){d3.select(this).style("background-color", "white")})
+										// 			  .on("mouseout", function(){d3.select(this).style("background-color", "aliceblue")})
+										// 			  .style("background-color", "aliceblue")
+										// 			  .text(function(d){return d;})
+										// 			  .style("fill", "#2ca02c")
+										// 			  .style("font-size", "18px");
 													  
 													  
 										/*var table = innerTableWrap.append("table");
@@ -602,7 +927,7 @@ function start() {
 										.style("stroke-width", null)
 										.attr("clicked", "F");
 
-									d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
+									// d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
 
 								}
 									// .attr("r", function(e) {
