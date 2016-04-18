@@ -184,7 +184,7 @@ function start() {
 	var margin = {top:40, right:40, left:40, bottom:40};
 	var cWidth = 850;
 	var sWidth = cWidth/2;
-	var cHeight = 900;
+	var cHeight = 750;
 	var width = 850 - margin.left - margin.right;
 	var height = 700 - margin.top - margin.bottom;
 	var xOffset = 25;
@@ -240,6 +240,10 @@ function start() {
 	// Color
 	var color = d3.scale.ordinal().range(["#d62728", "#FFFFFF", "#C49E57"]);
 	// END LINE GRAPH
+
+	var statList = ["Shots", "Shots on Target", "Fouls", "Corner", "Yellow Card", "Red Card"]
+
+	
 
 	// add tooltip area 
 	var tooltip = d3.select("body").append("div")
@@ -425,6 +429,34 @@ function start() {
 							.style("text-anchor", "end")
 							.text("Win-Rate");
 
+						var bars = lineSvg.append("g")
+							.selectAll(".bar")
+							.data(parsedData)
+							.enter();
+
+						bars.append("rect")
+							.attr("class", "bar")
+							.attr("id", function(d) {
+								return "bar_" + d.key.replace(" Season", "").replace("/", "_");
+							})
+							.attr("x", function(d) {
+								return xMap(d) + xOffset;
+							})
+							.attr("y", yOffset)
+							.attr("width", 105)
+							.attr("height", height)
+							.attr("fill", "black")
+							.style("opacity", 0)
+							.on("mouseover", function(d) {
+								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).transition().duration(500).style("opacity", 0.5);
+							})
+							.on("mouseout", function(d) {
+								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).transition().duration(250).style("opacity", 0);
+							})
+							.on("click", function(d) {
+
+							});
+
 						var manUDot = lineSvg.append("g")
 							.selectAll(".dot")
 							// .data(parsedDataOld)
@@ -442,6 +474,8 @@ function start() {
 							// .data(parsedDataOld)
 							.data(parsedData)
 							.enter();
+
+
 							
 						manUDot.append("circle")
 							.attr("class", "dot manU")
@@ -765,56 +799,56 @@ function start() {
 
 							});
 						
-						//Label Start
-						var teamName = ["other", "tott", "manU"];
+						// //Label Start
+						// var teamName = ["other", "tott", "manU"];
 						
-						// draw legend
-						var legend = d3.select('#legendDiv').selectAll(".legend")
-							.data(teamName)
-							.enter().append("p")
-							.attr("class", "legend")
-							.attr("id", function(d) { return d; })
-							.on("click", function(d) {
+						// // draw legend
+						// var legend = d3.select('#legendDiv').selectAll(".legend")
+						// 	.data(teamName)
+						// 	.enter().append("p")
+						// 	.attr("class", "legend")
+						// 	.attr("id", function(d) { return d; })
+						// 	.on("click", function(d) {
 
-								var className = "."+d;
-								var currentR = lineSvg.selectAll(className).attr("r");
-								lineSvg.selectAll(".dot").attr("r", circleRadius);
-								lineSvg.selectAll(className)
-									.transition()
-									.duration(300)
-									.attr("r", function(e) {
-										if (currentR == circleRadius) {
-											return (+currentR + 5);
-										} else {
-											return (+currentR - 5);
-										}
-									})
+						// 		var className = "."+d;
+						// 		var currentR = lineSvg.selectAll(className).attr("r");
+						// 		lineSvg.selectAll(".dot").attr("r", circleRadius);
+						// 		lineSvg.selectAll(className)
+						// 			.transition()
+						// 			.duration(300)
+						// 			.attr("r", function(e) {
+						// 				if (currentR == circleRadius) {
+						// 					return (+currentR + 5);
+						// 				} else {
+						// 					return (+currentR - 5);
+						// 				}
+						// 			})
 
-							});
+						// 	});
 							
 							
 
-						// draw legend colored rectangles
-						legend.append("span")
-							.attr('class', 'colorBox')
-							.style('float', 'left')
-							.style("background-color", function(d) {return color(d);});
+						// // draw legend colored rectangles
+						// legend.append("span")
+						// 	.attr('class', 'colorBox')
+						// 	.style('float', 'left')
+						// 	.style("background-color", function(d) {return color(d);});
 
-						// draw legend text
-						legend.append("span")
-							.style("color", "white")
-							.style("text-anchor", "end")
-							.text(function(d) {
-								if (d == "other") {
-									return "Other";
-								} else if (d == "tott") {
-									return "Tottenham";
-								} else {
-									return "Manchester United";
-								}
-							});
+						// // draw legend text
+						// legend.append("span")
+						// 	.style("color", "white")
+						// 	.style("text-anchor", "end")
+						// 	.text(function(d) {
+						// 		if (d == "other") {
+						// 			return "Other";
+						// 		} else if (d == "tott") {
+						// 			return "Tottenham";
+						// 		} else {
+						// 			return "Manchester United";
+						// 		}
+						// 	});
 							
-						d3.select('.graph').append('h2').text('Seasons');
+						// d3.select('.graph').append('h2').text('Seasons');
 					})
 				})
 			})

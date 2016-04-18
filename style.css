@@ -1,15 +1,18 @@
 body {
   font: 11px sans-serif;
   font-weight: 400;
-  text-align: center;
   background: #202020;
   color: white;
   font-family: 'Montserrat', sans-serif;
 }
 
-.graph {
-  margin-right: 38px;
-	margin-top: 55px;
+#graph {
+  margin: 0;
+  width: 900px;
+  float: left;
+}
+
+#stats {
   float: left;
 }
 
@@ -48,31 +51,4 @@ body {
   pointer-events: none;
   text-align: left;
   opacity: .25;
-}
-
-h2 {
-  font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-h1{
-	color: #98df8a;
-}
-
-td {
-  color: #98df8a;
-}
-
-tr {
-  color: #98df8a;
-}
-
-.stat_h1 {  
-  width: 200;
-}
-
-.individual_stat_wrap {
-  float: left;
-  width: 25%;
 }
