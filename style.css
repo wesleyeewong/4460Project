@@ -8,7 +8,6 @@ body {
 
 #graph {
   margin-top: 100px;
-  width: 900px;
   float: left;
 }
 
@@ -59,4 +58,9 @@ body {
   padding: 6px;
   background-color:black;
   font-size: 15px;
+}
+
+.divWraps {
+  width: 50%;
+  min-width: 643px;
 }

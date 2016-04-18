@@ -213,6 +213,8 @@ function countWinLoss(d, rival) {
 		homeTGS: homeTotalGoalScored, homeTGC: homeTotalGoalConceded, awayTGS: awayTotalGoalScored, awayTGC: awayTotalGoalConceded};
 }
 
+
+
 function start() {
 
 	var lineGraph = document.getElementById("graph");
@@ -220,10 +222,12 @@ function start() {
 
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
-	var cWidth = 800;
+	// var cWidth = 650;
+	var g = document.getElementsByClassName("divWraps")[0];
+	var cWidth = g.clientWidth;
 	var sWidth = cWidth/2;
 	var cHeight = 750;
-	var width = 850 - margin.left - margin.right;
+	var width = cWidth - margin.left - margin.right - 50;
 	var height = 700 - margin.top - margin.bottom;
 	var xOffset = 25;
 	var yOffset = 25;
@@ -294,18 +298,18 @@ function start() {
 	var xBarRedsScale = d3.scale.linear().range([0, (width/3)]);
 	var yBarScale = d3.scale.ordinal().rangeRoundBands([(height/3), 0], 0.5);
 
-	// X and Y bar axis
-	var xBarAxis = d3.svg.axis().scale(xBarScale).orient("bottom");
-	var xBarShotsAxis = d3.svg.axis().scale(xBarShotsScale).orient("bottom");
-	var xBarShotsOnTargetAxis = d3.svg.axis().scale(xBarShotsOnTargetScale).orient("bottom");
-	var xBarFoulsAxis = d3.svg.axis().scale(xBarFoulsScale).orient("bottom");
-	var xBarCornersAxis = d3.svg.axis().scale(xBarCornersScale).orient("bottom");
-	var xBarYellowsAxis = d3.svg.axis().scale(xBarYellowsScale).orient("bottom");
-	var xBarRedsAxis = d3.svg.axis().scale(xBarRedsScale).orient("bottom");
+	// // X and Y bar axis
+	// var xBarAxis = d3.svg.axis().scale(xBarScale).orient("bottom");
+	// var xBarShotsAxis = d3.svg.axis().scale(xBarShotsScale).orient("bottom");
+	// var xBarShotsOnTargetAxis = d3.svg.axis().scale(xBarShotsOnTargetScale).orient("bottom");
+	// var xBarFoulsAxis = d3.svg.axis().scale(xBarFoulsScale).orient("bottom");
+	// var xBarCornersAxis = d3.svg.axis().scale(xBarCornersScale).orient("bottom");
+	// var xBarYellowsAxis = d3.svg.axis().scale(xBarYellowsScale).orient("bottom");
+	// var xBarRedsAxis = d3.svg.axis().scale(xBarRedsScale).orient("bottom");
 	var yBarAxis = d3.svg.axis().scale(yBarScale).orient("left").tickFormat("");
 
 	// Axis
-	var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+	var xAxis = function(d) { return d3.svg.axis().scale(d).orient("bottom"); };
 	var yAxis = d3.svg.axis().scale(yScale).orient("left");
 
 	// setup x
@@ -506,11 +510,12 @@ function start() {
 						// Drawing x and y axis
 						lineSvg.append("g")
 							.attr("class", "x-axis")
+							.attr("id", "scatter-x-axis")
 							.attr("transform", "translate("+xOffset+", "+(yOffset+height+30)+")")
-							.call(xAxis)
+							.call(xAxis(xScale))
 							.attr("fill", "white")
 							.append("text")
-							.attr("x", 775 )
+							.attr("x", (cWidth)-100 )
 							.attr("y", 28 )
 							.attr("text-anchor", "end")  // this makes it easy to centre the text as the transform is applied to the anchor
 							.text("Seasons");
@@ -667,7 +672,8 @@ function start() {
 									.attr("class", "x-axis tShots")
 									.attr("id", "s_x-axis")
 									.attr("transform", "translate("+xOffset+", "+(yOffset+(height/3))+")")
-									.call(xBarShotsAxis)
+									// .call(xBarShotsAxis)
+									.call(xAxis(xBarShotsScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
@@ -687,7 +693,7 @@ function start() {
 									.attr("class", "x-axis tFouls")
 									.attr("id", "F_x-axis")
 									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*2)+40)+")")
-									.call(xBarFoulsAxis)
+									.call(xAxis(xBarFoulsScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
@@ -707,7 +713,7 @@ function start() {
 									.attr("class", "x-axis tYellows")
 									.attr("id", "Y_x-axis")
 									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*3)+80)+")")
-									.call(xBarYellowsAxis)
+									.call(xAxis(xBarYellowsScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
@@ -728,7 +734,7 @@ function start() {
 									.attr("class", "x-axis tShotsOnTarget")
 									.attr("id", "SOT_x-axis")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+(height/3))+")")
-									.call(xBarShotsOnTargetAxis)
+									.call(xAxis(xBarShotsOnTargetScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
@@ -748,7 +754,7 @@ function start() {
 									.attr("class", "x-axis tCorners")
 									.attr("id", "C_x-axis")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*2)+40)+")")
-									.call(xBarCornersAxis)
+									.call(xAxis(xBarCornersScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
@@ -768,7 +774,7 @@ function start() {
 									.attr("class", "x-axis tReds")
 									.attr("id", "R_x-axis")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*3)+80)+")")
-									.call(xBarRedsAxis)
+									.call(xAxis(xBarRedsScale))
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
