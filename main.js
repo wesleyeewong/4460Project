@@ -339,6 +339,11 @@ function start() {
 	var color = d3.scale.ordinal().range(["#d62728", "#FFFFFF", "#C49E57"]);
 	// END LINE GRAPH
 
+	var lineFunction = d3.svg.line()
+							.x(function(d) {return d.x;})
+							.y(function(d) {return d.y;})
+							.interpolate("linear");
+
 	// add tooltip area 
 	var tooltip = d3.select("body").append("div")
 		.attr("class", "tooltip")
@@ -580,14 +585,10 @@ function start() {
 									.enter();
 								arsenal.append("rect")
 									.attr("class", function(d) { return d.key + " " + "arsenal"; })
-									// .attr("id", function(d) { return d.key; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Arsenal");
 									})
-									// .attr("width", function(d) {
-									// 	return xBarScale((d.value/gamesPlayedPerTeam));
-									// })
 									.attr("height", 30)
 									.attr("fill", color("other"));
 
@@ -598,14 +599,10 @@ function start() {
 									.enter(); 
 								tottenham.append("rect")
 									.attr("class", function(d) { return d.key + " " + "tottenham"; })
-									// .attr("id", function(d) { return d.key; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Tottenham");
 									})
-									// .attr("width", function(d) {
-									// 	return xBarScale((d.value/gamesPlayedPerTeam));
-									// })
 									.attr("height", 30)
 									.attr("fill", color("tott"));
 
@@ -616,14 +613,10 @@ function start() {
 									.enter()
 								manUnited.append("rect")
 									.attr("class", function(d) { return d.key + " " + "manUnited"; })
-									// .attr("id", function(d) { return d.key; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Man United");
 									})
-									// .attr("width", function(d) {
-									// 	return xBarScale((d.value/gamesPlayedPerTeam));
-									// })
 									.attr("height", 30)
 									.attr("fill", color("manU"));
 
@@ -833,6 +826,7 @@ function start() {
 							.on("mouseout", function(d) {
 
 								tooltip.style("opacity", 0);
+								// lineSvg.select("#manU-line").remove();
 
 							})
 							.on("click", function(d) {
@@ -850,80 +844,7 @@ function start() {
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
 
-										// statSvg.append("div").attr("id", id.replace("#", "")+"_info_and_graph_wrap").attr("class", "info_and_graph_wrap");
-										// var outerWrap = d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap"));
-
-										// // This div wraps 2 divs!
-										// // First: Tha table div
-										// // Second: Bar graph div
-										// outerWrap.append("div")
-										// 	.attr("id", id.replace("#", "")+"_stat_wrap")
-										// 	.attr("class", "individual_stat_wrap");
-
-										// // We want all table stuff to be in this div
-										// var innerTableWrap = d3.select(document.getElementById(id.replace("#", "")+"_stat_wrap"));
-
-
-										// // TABLE STARTS HERE
-										// //innerTableWrap.append("h1").text("hello word").attr("class", "stat_h1");
-										// var table_title = d3.select(this).attr("id").replace("manU_", "ManU ").replace("_", "/");
-
-										// var table_data = [ ["", "W/L/D", "scored/conceded"]
-										// 				 ,["Home(date)", d.manUnited.homeW + "/" + d.manUnited.homeL + "/" + d.manUnited.homeD, d.manUnited.homeTGS + "/" + d.manUnited.homeTGC]
-										// 				 ,["Away (date)", d.manUnited.awayW + "/" + d.manUnited.awayL+ "/" + d.manUnited.awayD, d.manUnited.awayTGS + "/" + d.manUnited.awayTGC]
-										// 				];
-														
-										// innerTableWrap.append("table")
-										// 			  //Table Title
-										// 			  .append("h1")
-										// 			  .style("background-color", "aliceblue")
-										// 			  .text(table_title)
-										// 			  .style("fill", "#2ca02c")
-										// 			  .style("border", "2px black solid")
-										// 			  //Filling Table Start
-										// 			  .selectAll("tr")
-										// 			  .data(table_data)
-										// 			  .enter().append("tr")
-										// 			  .selectAll("td")
-										// 			  .data(function(d){return d;})
-										// 			  .enter().append("td")
-										// 			  .style("padding", "5px")
-										// 			  .on("mouseover", function(){d3.select(this).style("background-color", "white")})
-										// 			  .on("mouseout", function(){d3.select(this).style("background-color", "aliceblue")})
-										// 			  .style("background-color", "aliceblue")
-										// 			  .text(function(d){return d;})
-										// 			  .style("fill", "#2ca02c")
-										// 			  .style("font-size", "18px");
-													  
-													  
-										/*var table = innerTableWrap.append("table");
-										var homeRow = table.append("tr");
-										var awayRow = table.append("tr");
-										var homeGoals = table.append("tr");
-										var awayGoals = table.append("tr");
-
-										homeRow.append("td").html("Home W/L/D");
-										homeRow.append("td").html(d.manU.homeW + "/" + d.manU.homeL + "/" + d.manU.homeD);
-										awayRow.append("td").html("Away W/L/D");
-										awayRow.append("td").html(d.manU.awayW + "/" + d.manU.awayL+ "/" + d.manU.awayD)
-										homeGoals.append("td").html("Home goals scored/conceded");
-										homeGoals.append("td").html(d.manU.homeTGS + "/" + d.manU.homeTGC);
-										awayGoals.append("td").html("Away goals scored/conceded");
-										awayGoals.append("td").html(d.manU.awayTGS + "/" + d.manU.awayTGC);*/
-										// TABLE ENDS
-
-										// TODO: DATE LIST 
-
-										// END DATE LIST
 										
-
-										// statSvg.select(document.getElementById(id+"_stat_wrap"))
-										// 	.append("svg")
-										// 	.attr("class", "stats")
-										// 	.attr("id", id.replace("#", "")+"_stats")
-										// 	.attr("width", sWidth)
-										// 	.attr("height", cHeight)
-										// 	.append("g");
 
 								} else {
 
@@ -936,28 +857,33 @@ function start() {
 									// d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
 
 								}
-									// .attr("r", function(e) {
-									// 	if (targetR == circleRadius) {
-									// 		return +circleRadius + 5;
-									// 	} else {
-									// 		return circleRadius;
-									// 	}
-									// });
-									// TODO: APPEND ADAVANCE STATS HERE;
-								// lineSvg.selectAll(".dot")
-								// 	.attr("r", circleRadius);
-								// lineSvg.selectAll(".manU")
-								// 	.transition()
-								// 	.duration(300)
-								// 	.attr("r", function(e) {
-								// 		if (currentR == circleRadius) {
-								// 			return circleRadius + 5;
-								// 		} else {
-								// 			return circleRadius;
-								// 		}
-								// 	});
-
+									
 							});
+
+							var manUDotClass = document.getElementsByClassName("manU");
+							var manULineData = [];
+							for (var i = 0; i < manUDotClass.length; i++) {
+								var data = {"x": manUDotClass.item(i).cx.baseVal.value, "y": manUDotClass.item(i).cy.baseVal.value}
+								manULineData.push(data);
+							}
+
+							manULineData.push({"x": (manULineData[4].x+154), "y": manULineData[4].y});
+
+							lineSvg.append("path")
+								.attr("d", lineFunction(manULineData))
+								.attr("id", "manU-line")
+								.attr("stroke", color("manU"))
+								.attr("stroke-width", 2)
+								.attr("fill", "none");
+
+							lineSvg.append("text")
+								.attr("class", "teamText")
+								.attr("x", (manULineData[4].x+xOffset))
+								.attr("y", (manULineData[4].y-5))
+								.text("Manchester United")
+								.attr("fill", color("manU"))
+								.style("font-size", 15);
+
 
 						tottDot.append("circle")
 							.attr("class", "dot tott")
@@ -1001,13 +927,6 @@ function start() {
 										.style("stroke-width", "2.5")
 										.attr("clicked", "T");
 
-										statSvg.append("svg")
-											.attr("class", "stats")
-											.attr("id", id.replace("#", "")+"_stats")
-											.attr("width", sWidth)
-											.attr("height", cHeight)
-											.append("g");
-
 								} else {
 
 									targetCircle.transition()
@@ -1015,41 +934,33 @@ function start() {
 										.style("stroke", null)
 										.style("stroke-width", null)
 										.attr("clicked", "F");
-
-									d3.select("#"+id.replace("#", "")+"_stats").remove();
 								}
 
-								// var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
-								// var targetCircle = lineSvg.select(id);
-								// var targetR = targetCircle.attr("r");
-								// console.log(id);
-
-								// targetCircle.transition()
-								// 	.duration(300)
-								// 	.attr("r", function(e) {
-								// 		if (targetR == circleRadius) {
-								// 			return circleRadius + 5;
-								// 		} else {
-								// 			return circleRadius;
-								// 		}
-								// 	});
-									// TODO: APPEND ADAVANCE STATS HERE;
-
-								// var currentR = lineSvg.selectAll(".tott").attr("r");
-								// lineSvg.selectAll(".dot")
-								// 	.attr("r", circleRadius);
-								// lineSvg.selectAll(".tott")
-								// 	.transition()
-								// 	.duration(300)
-								// 	.attr("r", function(e) {
-								// 		if (currentR == circleRadius) {
-								// 			return circleRadius + 5;
-								// 		} else {
-								// 			return circleRadius;
-								// 		}
-								// 	});
-
 							});
+
+							var tottDotClass = document.getElementsByClassName("tott");
+							var tottLineData = [];
+							for (var i = 0; i < tottDotClass.length; i++) {
+								var data = {"x": tottDotClass.item(i).cx.baseVal.value, "y": tottDotClass.item(i).cy.baseVal.value}
+								tottLineData.push(data);
+							}
+
+							tottLineData.push({"x": (tottLineData[4].x+97), "y": tottLineData[4].y});
+
+							lineSvg.append("path")
+								.attr("d", lineFunction(tottLineData))
+								.attr("id", "tott-line")
+								.attr("stroke", color("tott"))
+								.attr("stroke-width", 2)
+								.attr("fill", "none");
+
+							lineSvg.append("text")
+								.attr("class", "teamText")
+								.attr("x", (tottLineData[4].x+xOffset))
+								.attr("y", (tottLineData[4].y-5))
+								.text("Tottenham")
+								.attr("fill", color("tott"))
+								.style("font-size", 15);
 
 						otherDot.append("circle")
 							.attr("class", "dot ars")
@@ -1098,88 +1009,35 @@ function start() {
 										.attr("clicked", "F");
 								}
 
-								// var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
-								// var targetCircle = lineSvg.select(id);
-								// var targetR = targetCircle.attr("r");
-								// console.log(id);
-
-								// targetCircle.transition()
-								// 	.duration(300)
-								// 	.attr("r", function(e) {
-								// 		if (targetR == circleRadius) {
-								// 			return circleRadius + 5;
-								// 		} else {
-								// 			return circleRadius;
-								// 		}
-								// 	});
-									// TODO: APPEND ADAVANCE STATS HERE;
-
-								// var currentR = lineSvg.selectAll(".other").attr("r");
-								// lineSvg.selectAll(".dot")
-								// 	.attr("r", circleRadius);
-								// lineSvg.selectAll(".other")
-								// 	.transition()
-								// 	.duration(300)
-								// 	.attr("r", function(e) {
-								// 		if (currentR == circleRadius) {
-								// 			return circleRadius + 5;
-								// 		} else {
-								// 			return circleRadius;
-								// 		}
-								// 	});
+								
 
 							});
+
+							var arsenalDotClass = document.getElementsByClassName("ars");
+							var arsenalLineData = [];
+							for (var i = 0; i < arsenalDotClass.length; i++) {
+								var data = {"x": arsenalDotClass.item(i).cx.baseVal.value, "y": arsenalDotClass.item(i).cy.baseVal.value}
+								arsenalLineData.push(data);
+							}
+
+							arsenalLineData.push({"x": (arsenalLineData[4].x+80), "y": arsenalLineData[4].y});
+
+							lineSvg.append("path")
+								.attr("d", lineFunction(arsenalLineData))
+								.attr("id", "ars-line")
+								.attr("stroke", color("other"))
+								.attr("stroke-width", 2)
+								.attr("fill", "none");
+
+							lineSvg.append("text")
+								.attr("class", "teamText")
+								.attr("x", (arsenalLineData[4].x+xOffset))
+								.attr("y", (arsenalLineData[4].y-5))
+								.text("Arsenal")
+								.attr("fill", color("other"))
+								.style("font-size", 15);
 						
-						// //Label Start
-						// var teamName = ["other", "tott", "manU"];
 						
-						// // draw legend
-						// var legend = d3.select('#legendDiv').selectAll(".legend")
-						// 	.data(teamName)
-						// 	.enter().append("p")
-						// 	.attr("class", "legend")
-						// 	.attr("id", function(d) { return d; })
-						// 	.on("click", function(d) {
-
-						// 		var className = "."+d;
-						// 		var currentR = lineSvg.selectAll(className).attr("r");
-						// 		lineSvg.selectAll(".dot").attr("r", circleRadius);
-						// 		lineSvg.selectAll(className)
-						// 			.transition()
-						// 			.duration(300)
-						// 			.attr("r", function(e) {
-						// 				if (currentR == circleRadius) {
-						// 					return (+currentR + 5);
-						// 				} else {
-						// 					return (+currentR - 5);
-						// 				}
-						// 			})
-
-						// 	});
-							
-							
-
-						// // draw legend colored rectangles
-						// legend.append("span")
-						// 	.attr('class', 'colorBox')
-						// 	.style('float', 'left')
-						// 	.style("background-color", function(d) {return color(d);});
-
-						// // draw legend text
-						// legend.append("span")
-						// 	.style("color", "white")
-						// 	.style("text-anchor", "end")
-						// 	.text(function(d) {
-						// 		if (d == "other") {
-						// 			return "Other";
-						// 		} else if (d == "tott") {
-						// 			return "Tottenham";
-						// 		} else {
-						// 			return "Manchester United";
-						// 		}
-						// 	});
-							
-						// d3.select('.graph').append('h2').text('Seasons');
 					})
 				})
 			})
