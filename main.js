@@ -225,6 +225,7 @@ function start() {
 	// var cWidth = 650;
 	var g = document.getElementsByClassName("divWraps")[0];
 	var cWidth = g.clientWidth;
+	console.log(g.clientHeight);
 	var sWidth = cWidth/2;
 	var cHeight = 750;
 	var width = cWidth - margin.left - margin.right - 50;
@@ -236,7 +237,7 @@ function start() {
 	var totalTeamsInLeague = 20;
 	var gamesPlayedPerTeam = 38;
 	var targetTeams = ["Arsenal", "Tottenham", "Man United"];
-	var targetSeason = ["10/11 Season", "11/12 Season", "12/13 Season", "13/14 Season", "14/15 Season"];
+	var targetSeason = ["10/11", "11/12", "12/13", "13/14", "14/15"];
 	var statsList = ["Shots", "Shots On Target", "Fouls", "Corners", "Yellow Cards", "Red Cards"];
 	var circleRadius = 10;
 	var legendSlection = 5;
@@ -440,27 +441,27 @@ function start() {
 
 						var parsedData = [
 						{
-							key: "10/11 Season",
+							key: "10/11",
 							arsenal: arsenalStat1011,
 							manUnited: manUnitedStat1011,
 							tottenham: tottenhamStat1011
 						}, {
-							key: "11/12 Season",
+							key: "11/12",
 							arsenal: arsenalStat1112,
 							manUnited: manUnitedStat1112,
 							tottenham: tottenhamStat1112
 						}, {
-							key: "12/13 Season",
+							key: "12/13",
 							arsenal: arsenalStat1213,
 							manUnited: manUnitedStat1213,
 							tottenham: tottenhamStat1213
 						}, {
-							key: "13/14 Season",
+							key: "13/14",
 							arsenal: arsenalStat1314,
 							manUnited: manUnitedStat1314,
 							tottenham: tottenhamStat1314
 						}, {
-							key: "14/15 Season",
+							key: "14/15",
 							arsenal: arsenalStat1415,
 							manUnited: manUnitedStat1415,
 							tottenham: tottenhamStat1415
@@ -518,6 +519,7 @@ function start() {
 							.attr("id", "scatter-x-axis")
 							.attr("transform", "translate("+xOffset+", "+(yOffset+height+30)+")")
 							.call(xAxis(xScale))
+							.style("font-size", 15)
 							.attr("fill", "white")
 							.append("text")
 							.attr("x", (cWidth)-100 )
@@ -529,6 +531,7 @@ function start() {
 							.attr("class", "y-axis")
 							.attr("transform", "translate("+xOffset+", "+yOffset+")")
 							.call(yAxis)
+							.style("font-size", 15)
 							.attr("fill", "white")
 							.append("text")
 							.attr("class", "label")
