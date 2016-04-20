@@ -242,6 +242,7 @@ function start() {
 	var circleRadius = 10;
 	var legendSlection = 5;
 	var dotSelection = 6;
+	var uniqueDate = function(d) { return d3.map(d, function(e) { return e["Date"]; }).keys() };
 	// End constants
 
 	// START LINE GRAPH DEFINITION
@@ -254,31 +255,6 @@ function start() {
 	var statsTable = d3.select(stats);
 
 	statsTable.append("h2").attr("id", "stats_title").text("Season averaged stats");
-
-	// var table = statsTable.append("table")
-	// 	.attr("id", "stats_table")
-	// 	.selectAll(".stats_table_row")
-	// 	.data(statsList)
-	// 	.enter();
-	// var tableRow = table.append("tr")
-	// 	.attr("class", function(d) { return "stats_table_row" + " " + d.replace("Shots", "tShots").replace(" On Target", "OnTarget").replace("F", "tF").replace("C", "tC").replace("Yellow Cards", "tYellows").replace("Red Cards", "tReds"); })
-	// 	.attr("clicked", "F")
-	// 	.attr("id", function(d) {
-	// 		return d.replace(" ", "_").replace(" ", "_");
-	// 	})
-	// 	.text(function(d) { return d; })
-	// 	.on("click", function(d) {
-	// 		if (d3.select(this).attr("clicked") == "F") {
-	// 			d3.select(this).attr("clicked", "T");
-	// 			console.log(d3.select(this).attr("class").replace("stats_table_row ", "."));
-	// 			var className = d3.select(this).attr("class").replace("stats_table_row ", ".");
-	// 			d3.selectAll(className);
-	// 		}
-	// 		else {
-	// 			d3.select(this).attr("clicked", "F");
-	// 			d3.selectAll(d3.select(this).attr("class").replace("stats_table_row", "")).style("display", "block");
-	// 		}
-	// 	});
 
 	var statsSvg = statsTable.append("svg")
 		.attr("width", cWidth)
@@ -300,13 +276,6 @@ function start() {
 	var yBarScale = d3.scale.ordinal().rangeRoundBands([(height/3), 0], 0.5);
 
 	// // X and Y bar axis
-	// var xBarAxis = d3.svg.axis().scale(xBarScale).orient("bottom");
-	// var xBarShotsAxis = d3.svg.axis().scale(xBarShotsScale).orient("bottom");
-	// var xBarShotsOnTargetAxis = d3.svg.axis().scale(xBarShotsOnTargetScale).orient("bottom");
-	// var xBarFoulsAxis = d3.svg.axis().scale(xBarFoulsScale).orient("bottom");
-	// var xBarCornersAxis = d3.svg.axis().scale(xBarCornersScale).orient("bottom");
-	// var xBarYellowsAxis = d3.svg.axis().scale(xBarYellowsScale).orient("bottom");
-	// var xBarRedsAxis = d3.svg.axis().scale(xBarRedsScale).orient("bottom");
 	var yBarAxis = d3.svg.axis().scale(yBarScale).orient("left").tickFormat("");
 
 	// Axis
@@ -318,9 +287,6 @@ function start() {
 	var xMap = function(d) { return xScale(xValue(d)); };
 
 	// setup y TODO: fix y mapping
-	// var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)/d.manU.totalG) * 100; };
-	// var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)/d.tott.totalG) * 100; };
-	// var yValueOther = function(d) { return ((d.other.homeW + d.other.awayW)/d.other.totalG) * 100; };
 	var yValueManU = function(d) { return ((d.manU.homeW + d.manU.awayW)*3+d.manU.homeD+d.manU.awayD); };
 	var yValueTott = function(d) { return ((d.tott.homeW + d.tott.awayW)*3+d.tott.homeD+d.tott.awayD) ;};
 	var yValueOther = function(d) { return ((d.other.homeW + d.tott.awayW)*3+d.other.homeD+d.other.awayD)/16; };
@@ -371,13 +337,6 @@ function start() {
 						turnToInt(d);
 						return d;
 					}, function(error5, data1415) {
-
-						// Checking season game #
-						// console.log(data1415.length);
-						// console.log(data1314.length);
-						// console.log(data1213.length);
-						// console.log(data1112.length);
-						// console.log(data1011.length);
 
 						// New data object, use this one instead
 						// Contains all the stats, and dates
