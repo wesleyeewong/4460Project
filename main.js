@@ -259,12 +259,9 @@ function start() {
 	var scatterXMap = function(d) { return scatterXScale(d["Date"]); };
 	var scatterXAxis =	d3.svg.axis().scale(scatterXScale).orient("bottom").tickFormat("");
 
-	var scatterYValue = function(d) { 
-		if(d["HomeTeam"] == "Arsenal" || d["HomeTeam"] == "Man United" || d["HomeTeam"] == "Tottenham") {
-			return d["HomeTeam"];
-		}
-		if(d["AwayTeam"] == "Arsenal"  || d["AwayTeam"] == "Man United" || d["AwayTeam"] == "Tottenham") {
-			 return d["AwayTeam"];  
+	var scatterYValue = function(d, team) { 
+		if(d["HomeTeam"] == team || d["AwayTeam"] == team) {
+			return d["HomeTeam"]; 
 		}
 	};
 	var scatterYScale = d3.scale.ordinal().rangeRoundBands([0, height],1), // value -> display
@@ -542,10 +539,11 @@ function start() {
 							.enter();
 
 						bars.append("rect")
-							.attr("class", "bar")
+							.attr("class", "areaBar")
 							.attr("id", function(d) {
 								return "bar_" + d.key.replace(" Season", "").replace("/", "_");
 							})
+							.attr("clicked", "F")
 							.attr("x", function(d) {
 								return xMap(d) + xOffset;
 							})
@@ -558,9 +556,15 @@ function start() {
 								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).transition().duration(500).style("opacity", 0.5);
 							})
 							.on("mouseout", function(d) {
-								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).transition().duration(250).style("opacity", 0);
+								var thisBar = lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_"));
+								if (thisBar.attr("clicked") == "F") {
+									thisBar.transition().duration(250).style("opacity", 0); 
+								}
 							})
 							.on("click", function(d) {
+
+								lineSvg.selectAll(".areaBar").style("opacity", 0).attr("clicked", "F");
+								lineSvg.select("#" + "bar_" + d.key.replace(" Season", "").replace("/", "_")).attr("clicked", "T").style("opacity", 0.5);
 
 								statsTable.select("#stats_title")
 									.text(d.key + " season averaged stats");
@@ -814,7 +818,8 @@ function start() {
 									.enter()
 									.append("circle")
 									.filter(function(e) { 
-												if(scatterYValue(e) == "Man United"){
+												if (e.HomeTeam == "Man United" || e.AwayTeam == "Man United") {
+													console.log("Man United");
 													return "Man United";
 												}
 											})
@@ -827,7 +832,7 @@ function start() {
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
-									.attr("cy", function(e) { return scatterYMap(e); })
+									.attr("cy", scatterYScale("Man United"))
 									.style("opacity", 1)
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
@@ -867,7 +872,8 @@ function start() {
 									.enter()
 									.append("circle")
 									.filter(function(e) { 
-												if(scatterYValue(e) == "Arsenal"){
+												if (e.HomeTeam == "Arsenal" || e.AwayTeam == "Arsenal") {
+													console.log("Arsenal");
 													return "Arsenal";
 												}
 											})
@@ -880,7 +886,7 @@ function start() {
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
-									.attr("cy", function(e) { return scatterYMap(e); })
+									.attr("cy", scatterYScale("Arsenal"))
 									.style("opacity", 1)
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
@@ -920,7 +926,8 @@ function start() {
 									.enter()
 									.append("circle")
 									.filter(function(e) { 
-												if(scatterYValue(e) == "Tottenham"){
+												if (e.HomeTeam == "Tottenham" || e.AwayTeam == "Tottenham") {
+													console.log("Tottenham");
 													return "Tottenham";
 												}
 											})
@@ -933,11 +940,11 @@ function start() {
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
-									.attr("cy", function(e) { return scatterYMap(e); })
+									.attr("cy", scatterYScale("Tottenham"))
 									.style("opacity", 1)
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
-														if(e["HomeTeam"] == "Tblackblackottenham") {
+														if(e["HomeTeam"] == "Tottenham") {
 															return "green";
 														} else {
 															return "black"
