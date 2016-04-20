@@ -805,11 +805,20 @@ function start() {
 									.enter()
 									.append("rect")
 									.attr("transform", "translate(0,-40)")
+									.attr("class", "scatterRects")
+									.attr("class", function(e) { return e + "_scatterRects"; })
 									.attr("x", 0)
 									.attr("y", function(e) { return scatterYScale(e); })
 									.attr("width", (cWidth*1.965))
 									.attr("height", 80)
-									.style("fill", function(e) { return color(e); });
+									.style("fill", function(e) {
+										if (e == "Arsenal") {
+											return color("other");
+										} else if (e == "Man United") {
+											return color("manU");
+										}
+										return color("tott");
+									});
 
 								// Draw dots
 								var MDot = scatterSvg.append("g")
