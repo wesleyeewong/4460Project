@@ -219,6 +219,7 @@ function start() {
 
 	var lineGraph = document.getElementById("graph");
 	var stats = document.getElementById("stats");
+	var scatterGraph = document.getElementById("graph2");
 
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
@@ -242,8 +243,34 @@ function start() {
 	var circleRadius = 10;
 	var legendSlection = 5;
 	var dotSelection = 6;
-	var uniqueDate = function(d) { return d3.map(d, function(e) { return e["Date"]; }).keys() };
 	// End constants
+
+	// START SCATTER GRAPH DEFINITION
+
+	var scatterDiv = d3.select(scatterGraph);
+	scatterDiv.append("h2").attr("id", "scatter_title").text("Season individual game win/loss and goal diffs");
+	scatterSvg = scatterDiv.append("svg")
+		.attr("width", (cWidth*2))
+		.attr("height", cHeight)
+		.append("g");
+
+	var scatterXScale = d3.scale.ordinal().rangeRoundBands([0, ((cWidth*2)-margin.left-margin.right)]);
+	var uniqueDate = function(d) { return d3.map(d, function(e) { return e["Date"]; }).keys() };
+	var scatterXMap = function(d) { return scatterXScale(d["Date"]); };
+	var scatterXAxis =	d3.svg.axis().scale(scatterXScale).orient("bottom").tickFormat("");
+
+	var scatterYValue = function(d) { 
+		if(d["HomeTeam"] == "Arsenal" || d["HomeTeam"] == "Man United" || d["HomeTeam"] == "Tottenham") {
+			return d["HomeTeam"];
+		}
+		if(d["AwayTeam"] == "Arsenal"  || d["AwayTeam"] == "Man United" || d["AwayTeam"] == "Tottenham") {
+			 return d["AwayTeam"];  
+		}
+	};
+	var scatterYScale = d3.scale.ordinal().rangeRoundBands([0, height],1), // value -> display
+			scatterYMap = function(d) { return scatterYScale(scatterYValue(d));}, // data -> display
+			scatterYAxis = d3.svg.axis().scale(scatterYScale).orient("left");
+
 
 	// START LINE GRAPH DEFINITION
 	var lineSvg = d3.select(lineGraph)
@@ -303,7 +330,7 @@ function start() {
 	var yMapTottenham = function(d) { return yScale(yValueTottenham(d)); };
 
 	// Color
-	var color = d3.scale.ordinal().range(["#d62728", "#FFFFFF", "#C49E57"]);
+	var color = d3.scale.ordinal().range(["#d62728", "#2B62A5", "#C49E57"]);
 	// END LINE GRAPH
 
 	var lineFunction = d3.svg.line()
@@ -403,27 +430,32 @@ function start() {
 							key: "10/11",
 							arsenal: arsenalStat1011,
 							manUnited: manUnitedStat1011,
-							tottenham: tottenhamStat1011
+							tottenham: tottenhamStat1011,
+							raw: data1011
 						}, {
 							key: "11/12",
 							arsenal: arsenalStat1112,
 							manUnited: manUnitedStat1112,
-							tottenham: tottenhamStat1112
+							tottenham: tottenhamStat1112,
+							raw: data1112
 						}, {
 							key: "12/13",
 							arsenal: arsenalStat1213,
 							manUnited: manUnitedStat1213,
-							tottenham: tottenhamStat1213
+							tottenham: tottenhamStat1213,
+							raw: data1213
 						}, {
 							key: "13/14",
 							arsenal: arsenalStat1314,
 							manUnited: manUnitedStat1314,
-							tottenham: tottenhamStat1314
+							tottenham: tottenhamStat1314,
+							raw: data1314
 						}, {
 							key: "14/15",
 							arsenal: arsenalStat1415,
 							manUnited: manUnitedStat1415,
-							tottenham: tottenhamStat1415
+							tottenham: tottenhamStat1415,
+							raw: data1415
 						}];
 
 						var parsedDataOld = [
@@ -531,7 +563,9 @@ function start() {
 							.on("click", function(d) {
 
 								statsTable.select("#stats_title")
-									.text(d.key + " averaged stats");
+									.text(d.key + " season averaged stats");
+								scatterDiv.select("#scatter_title")
+									.text(d.key + " season | Individual game win/loss and goal diffs");
 
 								statsSvg.selectAll("*").remove();
 								
@@ -738,7 +772,200 @@ function start() {
 									.attr("class", "statsHeader")
 									.text("Red Cards");
 
-								// Arsenal Bars
+								// END MULTI STAT BAR CHART
+
+								// START SCATTERPLOT
+								scatterSvg.selectAll("*").remove();
+
+								scatterXScale.domain(uniqueDate(d.raw));
+								scatterYScale.domain(targetTeams.map(function(d) {
+									return d;
+								}));
+
+								scatterSvg.append("g")
+									.attr("class", "x-axis")
+									.attr("id", "x-scatter")
+									.attr("transform", "translate("+xOffset+", "+(height)+")")
+									.call(scatterXAxis)
+									.attr("fill", "white")
+									.append("text")
+									.attr("x", (cWidth/2))
+									.attr("y",30)
+									.style("font-size", 25)
+									.text("Date (day/month/year)");
+
+								// Draw team rects
+								var scatterRects = scatterSvg.append("g")
+									.selectAll(".scatterRects")
+									.data(targetTeams)
+									.enter()
+									.append("rect")
+									.attr("transform", "translate(0,-40)")
+									.attr("x", 0)
+									.attr("y", function(e) { return scatterYScale(e); })
+									.attr("width", (cWidth*1.965))
+									.attr("height", 80)
+									.style("fill", function(e) { return color(e); });
+
+								// Draw dots
+								var MDot = scatterSvg.append("g")
+									.selectAll(".dot")
+									.data(d.raw)
+									.enter()
+									.append("circle")
+									.filter(function(e) { 
+												if(scatterYValue(e) == "Man United"){
+													return "Man United";
+												}
+											})
+									.attr("class", "M-dot")
+									.attr("r", function(e){
+												  if(e["FTR"] == "D") {
+													return 5;
+												  }else{
+													return 5 * Math.abs(e.FTHG-e.FTAG);
+												  }
+									})
+									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
+									.attr("cy", function(e) { return scatterYMap(e); })
+									.style("opacity", 1)
+									.style("fill", function(e){
+													if(e["FTR"] == "H") {
+														if(e["HomeTeam"] == "Man United") {
+															return "green";
+														} else {
+															return "black"
+														}
+													} else if(e["FTR"] == "A") {
+														if(e["AwayTeam"] == "Man United") {
+															return "green";
+														} else {
+															return "black"
+														}
+													} else if(e["FTR"] == "D") {
+														return "white";
+													} 
+									})
+									.on("mouseover", function(e) {
+										tooltip.transition()        
+											.duration(200)      
+											.style("opacity", .8);      
+											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
+											.style("left", (d3.event.pageX + 15) + "px")     
+											.style("top", (d3.event.pageY + 15) + "px")
+											.style('font-size', '15px');   
+									})
+									.on("mouseout", function(e) {
+										tooltip.transition()        
+											.duration(500)      
+											.style("opacity", 0);   
+									});
+
+								var ADot = scatterSvg.append("g")
+									.selectAll(".dot")
+									.data(d.raw)
+									.enter()
+									.append("circle")
+									.filter(function(e) { 
+												if(scatterYValue(e) == "Arsenal"){
+													return "Arsenal";
+												}
+											})
+									.attr("class", "A-dot")
+									.attr("r", function(e){
+												  if(e["FTR"] == "D") {
+													return 5;
+												  }else{
+													return 5 * Math.abs(e.FTHG-e.FTAG);
+												  }
+									})
+									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
+									.attr("cy", function(e) { return scatterYMap(e); })
+									.style("opacity", 1)
+									.style("fill", function(e){
+													if(e["FTR"] == "H") {
+														if(e["HomeTeam"] == "Arsenal") {
+															return "green";
+														} else {
+															return "blackblack"
+														}
+													} else if(e["FTR"] == "A") {
+														if(e["AwayTeam"] == "Arsenal") {
+															return "green";
+														} else {
+															return "blackblack"
+														}
+													} else if(e["FTR"] == "D") {
+														return "white";
+													} 
+									})
+									.on("mouseover", function(e) {
+										tooltip.transition()        
+											.duration(200)      
+											.style("opacity", .8);      
+											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
+											.style("left", (d3.event.pageX + 15) + "px")     
+											.style("top", (d3.event.pageY + 15) + "px")
+											.style('font-size', '15px');   
+									})
+									.on("mouseout", function(e) {
+										tooltip.transition()        
+											.duration(500)      
+											.style("opacity", 0);   
+									});
+
+								var TDot = scatterSvg.append("g")
+									.selectAll(".dot")
+									.data(d.raw)
+									.enter()
+									.append("circle")
+									.filter(function(e) { 
+												if(scatterYValue(e) == "Tottenham"){
+													return "Tottenham";
+												}
+											})
+									.attr("class", "T-dot")
+									.attr("r", function(e){
+												  if(e["FTR"] == "D") {
+													return 5;
+												  }else{
+													return 5 * Math.abs(e.FTHG-e.FTAG);
+												  }
+									})
+									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
+									.attr("cy", function(e) { return scatterYMap(e); })
+									.style("opacity", 1)
+									.style("fill", function(e){
+													if(e["FTR"] == "H") {
+														if(e["HomeTeam"] == "Tblackblackottenham") {
+															return "green";
+														} else {
+															return "black"
+														}
+													} else if(e["FTR"] == "A") {
+														if(e["AwayTeam"] == "Tottenham") {
+															return "green";
+														} else {
+															return "black"
+														}
+													} else if(e["FTR"] == "D") {
+														return "white";
+													} 
+									})
+									.on("mouseover", function(e) {
+										tooltip.transition()        
+											.duration(200)      
+											.style("opacity", .8);      
+											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
+											.style("left", (d3.event.pageX + 15) + "px")     
+											.style("top", (d3.event.pageY + 15) + "px")
+											.style('font-size', '15px');   
+									})
+									.on("mouseout", function(e) {
+										tooltip.transition()        
+											.duration(500)      
+											.style("opacity", 0);   
+									});
 								
 
 							});
