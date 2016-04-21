@@ -408,20 +408,6 @@ function start() {
 						var vsOther1314 = countWinLoss(data1314, "other");
 						var vsOther1415 = countWinLoss(data1415, "other");
 
-						// var parsedData = [
-						// {
-						// 	key: "ManU"
-						// 	value: [vsManU1011, vsManU1112, vsManU1213, vsManU1314, vsManU1415]
-						// },
-						// {
-						// 	key: "Tott"
-						// 	value: [vsTott1011, vsTott1112, vsTott1213, vsTott1314, vsTott1415]
-						// },
-						// {
-						// 	key: "Other"
-						// 	value: [vsOther1011, vsOther1112, vsOther1213, vsOther1314, vsOther1415]
-						// }];
-
 						var parsedData = [
 						{
 							key: "10/11",
@@ -780,7 +766,6 @@ function start() {
 
 								// START SCATTERPLOT
 								scatterSvg.selectAll("*").remove();
-
 								scatterXScale.domain(uniqueDate(d.raw));
 								scatterYScale.domain(targetTeams.map(function(d) {
 									return d;
@@ -835,9 +820,9 @@ function start() {
 									.attr("class", "M-dot")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
-													return 5;
+													return 8;
 												  }else{
-													return 5 * Math.abs(e.FTHG-e.FTAG);
+													return 10 + Math.abs(e.FTHG-e.FTAG)*2.5;
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
@@ -889,9 +874,9 @@ function start() {
 									.attr("class", "A-dot")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
-													return 5;
+													return 8;
 												  }else{
-													return 5 * Math.abs(e.FTHG-e.FTAG);
+													return 10 + Math.abs(e.FTHG-e.FTAG)*2.5;
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
@@ -943,9 +928,9 @@ function start() {
 									.attr("class", "T-dot")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
-													return 5;
+													return 8;
 												  }else{
-													return 5 * Math.abs(e.FTHG-e.FTAG);
+													return 10 + Math.abs(e.FTHG-e.FTAG)*2.5;
 												  }
 									})
 									.attr("cx", function(e) { return scatterXMap(e)+xOffset; })
@@ -1036,32 +1021,32 @@ function start() {
 							})
 							.on("click", function(d) {
 
-								var id = "#manU_"+d.key.replace(" Season", "").replace("/", "_");
-								var targetCircle = lineSvg.select(id);
-								console.log(id);
+								// var id = "#manU_"+d.key.replace(" Season", "").replace("/", "_");
+								// var targetCircle = lineSvg.select(id);
+								// console.log(id);
 
-								var statSvg = d3.select(stats);
+								// var statSvg = d3.select(stats);
 
-								if (targetCircle.attr("clicked") == "F") {
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", "white")
-										.style("stroke-width", "2.5")
-										.attr("clicked", "T");
+								// if (targetCircle.attr("clicked") == "F") {
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", "white")
+								// 		.style("stroke-width", "2.5")
+								// 		.attr("clicked", "T");
 
 										
 
-								} else {
+								// } else {
 
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", null)
-										.style("stroke-width", null)
-										.attr("clicked", "F");
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", null)
+								// 		.style("stroke-width", null)
+								// 		.attr("clicked", "F");
 
-									// d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
+								// 	// d3.select(document.getElementById(id.replace("#", "")+"_info_and_graph_wrap")).remove();
 
-								}
+								// }
 									
 							});
 
@@ -1119,27 +1104,27 @@ function start() {
 							})
 							.on("click", function(d) {
 
-								var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
-								var targetCircle = lineSvg.select(id);
-								console.log(id);
+								// var id = "#tott_"+d.key.replace(" Season", "").replace("/", "_");
+								// var targetCircle = lineSvg.select(id);
+								// console.log(id);
 
-								var statSvg = d3.select(stats);
+								// var statSvg = d3.select(stats);
 
-								if (targetCircle.attr("clicked") == "F") {
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", "white")
-										.style("stroke-width", "2.5")
-										.attr("clicked", "T");
+								// if (targetCircle.attr("clicked") == "F") {
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", "white")
+								// 		.style("stroke-width", "2.5")
+								// 		.attr("clicked", "T");
 
-								} else {
+								// } else {
 
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", null)
-										.style("stroke-width", null)
-										.attr("clicked", "F");
-								}
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", null)
+								// 		.style("stroke-width", null)
+								// 		.attr("clicked", "F");
+								// }
 
 							});
 
@@ -1196,23 +1181,23 @@ function start() {
 							})
 							.on("click", function(d) {
 
-								var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
-								var targetCircle = lineSvg.select(id);
-								console.log(id);
+								// var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
+								// var targetCircle = lineSvg.select(id);
+								// console.log(id);
 
-								if (targetCircle.attr("clicked") == "F") {
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", "white")
-										.style("stroke-width", "2.5")
-										.attr("clicked", "T");
-								} else {
-									targetCircle.transition()
-										.duration(250)
-										.style("stroke", null)
-										.style("stroke-width", null)
-										.attr("clicked", "F");
-								}
+								// if (targetCircle.attr("clicked") == "F") {
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", "white")
+								// 		.style("stroke-width", "2.5")
+								// 		.attr("clicked", "T");
+								// } else {
+								// 	targetCircle.transition()
+								// 		.duration(250)
+								// 		.style("stroke", null)
+								// 		.style("stroke-width", null)
+								// 		.attr("clicked", "F");
+								// }
 
 								
 
