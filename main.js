@@ -245,6 +245,8 @@ function start() {
 	var dotSelection = 6;
 	// End constants
 
+	var scatterClicked = false;
+
 	// START SCATTER GRAPH DEFINITION
 
 	var scatterDiv = d3.select(scatterGraph);
@@ -571,6 +573,7 @@ function start() {
 									.enter();
 								arsenal.append("rect")
 									.attr("class", function(d) { return d.key + " " + "arsenal"; })
+									.attr("id", function(d) { return d.key + "_arsenal"; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Arsenal");
@@ -585,6 +588,7 @@ function start() {
 									.enter(); 
 								tottenham.append("rect")
 									.attr("class", function(d) { return d.key + " " + "tottenham"; })
+									.attr("id", function(d) { return d.key + "_tottenham"; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Tottenham");
@@ -599,6 +603,7 @@ function start() {
 									.enter()
 								manUnited.append("rect")
 									.attr("class", function(d) { return d.key + " " + "manUnited"; })
+									.attr("id", function(d) { return d.key + "_manUnited"; })
 									.attr("x", 0)
 									.attr("y", function(d) {
 										return yBarScale("Man United");
@@ -611,32 +616,50 @@ function start() {
 									.attr("transform", "translate("+xOffset+", "+yOffset+")")
 									.attr("width", function(d) {
 										return xBarShotsScale((d.value/gamesPlayedPerTeam));
+									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
 									});
 								var shotsOnTarget = statsSvg.selectAll(".tShotsOnTarget")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+yOffset+")")
 									.attr("width", function(d) {
 										return xBarShotsOnTargetScale((d.value/gamesPlayedPerTeam));
+									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
 									});
 								var fouls = statsSvg.selectAll(".tFouls")
 									.attr("transform", "translate("+xOffset+", "+(yOffset+(height/3)+40)+")")
 									.attr("width", function(d) {
 										return xBarFoulsScale((d.value/gamesPlayedPerTeam));
+									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
 									});
 								var corners = statsSvg.selectAll(".tCorners")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+(height/3)+40)+")")
 									.attr("width", function(d) {
 										return xBarCornersScale((d.value/gamesPlayedPerTeam));
+									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
 									});
 								var yellows = statsSvg.selectAll(".tYellows")
 									.attr("transform", "translate("+xOffset+", "+(yOffset+((height/3)*2)+80)+")")
 									.attr("width", function(d) {
 										return xBarYellowsScale((d.value/gamesPlayedPerTeam));
+									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
 									});
 								var reds = statsSvg.selectAll(".tReds")
 									.attr("transform", "translate("+(xOffset+(width/3)+90)+", "+(yOffset+((height/3)*2)+80)+")")
 									.attr("width", function(d) {
 										return xBarRedsScale((d.value/gamesPlayedPerTeam));
 									})
+									.attr("originalWidth", function(d) {
+										return xBarShotsScale((d.value/gamesPlayedPerTeam));
+									});
 
 
 								// Left side
@@ -818,6 +841,10 @@ function start() {
 												}
 											})
 									.attr("class", "M-dot")
+									.attr("id", function(e) {
+										return "manUnited_" + e["Date"];
+									})
+									.attr("clicked", "F")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
 													return 8;
@@ -852,12 +879,46 @@ function start() {
 											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
 											.style("left", (d3.event.pageX + 15) + "px")     
 											.style("top", (d3.event.pageY + 15) + "px")
-											.style('font-size', '15px');   
+											.style('font-size', '15px');  
+
+										if (!scatterClicked) {
+											d3.selectAll(".M-dot").style("opacity", 0.5);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+											d3.select(this).style("opacity", 1);
+										}
 									})
 									.on("mouseout", function(e) {
 										tooltip.transition()        
 											.duration(500)      
 											.style("opacity", 0);   
+
+										if (!scatterClicked) {
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+										}
+									})
+									.on("click", function(e) {
+										var thisDot = d3.select(this);
+										if (thisDot.attr("clicked") == "F") {
+											d3.selectAll(".M-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
+											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
+											thisDot.attr("clicked", "T");
+											thisDot.style("opacity", 1);
+											scatterClicked = true;
+										}
+										else if (thisDot.attr("clicked") == "T") {
+											d3.selectAll(".M-dot").attr("clicked", "F");
+											d3.selectAll(".A-dot").attr("clicked", "F");
+											d3.selectAll(".T-dot").attr("clicked", "F");
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+											scatterClicked = false;
+										}
+										
 									});
 
 								var ADot = scatterSvg.append("g")
@@ -872,6 +933,10 @@ function start() {
 												}
 											})
 									.attr("class", "A-dot")
+									.attr("id", function(e) {
+										return "arsenal_" + e["Date"]
+									})
+									.attr("clicked", "F")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
 													return 8;
@@ -907,11 +972,45 @@ function start() {
 											.style("left", (d3.event.pageX + 15) + "px")     
 											.style("top", (d3.event.pageY + 15) + "px")
 											.style('font-size', '15px');   
+
+										if (!scatterClicked) {
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 0.5);
+											d3.selectAll(".T-dot").style("opacity", 1);
+											d3.select(this).style("opacity", 1);
+										}	
 									})
 									.on("mouseout", function(e) {
 										tooltip.transition()        
 											.duration(500)      
-											.style("opacity", 0);   
+											.style("opacity", 0);
+
+										if (!scatterClicked) {
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);   
+										}
+									})
+									.on("click", function(e) {
+										var thisDot = d3.select(this);
+										if (thisDot.attr("clicked") == "F") {
+											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
+											d3.selectAll(".A-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
+											thisDot.attr("clicked", "T");
+											thisDot.style("opacity", 1);
+											scatterClicked = true;
+										}
+										else if (thisDot.attr("clicked") == "T") {
+											d3.selectAll(".M-dot").attr("clicked", "F");
+											d3.selectAll(".A-dot").attr("clicked", "F");
+											d3.selectAll(".T-dot").attr("clicked", "F");
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+											scatterClicked = false;
+										}
+										
 									});
 
 								var TDot = scatterSvg.append("g")
@@ -926,6 +1025,10 @@ function start() {
 												}
 											})
 									.attr("class", "T-dot")
+									.attr("id", function(e) {
+										return "tottenham_" + e["Date"]
+									})
+									.attr("clicked", "F")
 									.attr("r", function(e){
 												  if(e["FTR"] == "D") {
 													return 8;
@@ -960,12 +1063,46 @@ function start() {
 											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
 											.style("left", (d3.event.pageX + 15) + "px")     
 											.style("top", (d3.event.pageY + 15) + "px")
-											.style('font-size', '15px');   
+											.style('font-size', '15px');
+											 if (!scatterClicked) {
+												d3.selectAll(".M-dot").style("opacity", 1);
+												d3.selectAll(".A-dot").style("opacity", 1);
+												d3.selectAll(".T-dot").style("opacity", 0.5);
+												d3.select(this).style("opacity", 1);
+											}
+
 									})
 									.on("mouseout", function(e) {
 										tooltip.transition()        
 											.duration(500)      
-											.style("opacity", 0);   
+											.style("opacity", 0);  
+
+										if (!scatterClicked) {
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+										}
+									})
+									.on("click", function(e) {
+										var thisDot = d3.select(this);
+										if (thisDot.attr("clicked") == "F") {
+											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
+											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
+											d3.selectAll(".T-dot").style("opacity", 0.5).attr("clicked", "F");
+											thisDot.attr("clicked", "T");
+											thisDot.style("opacity", 1);
+											scatterClicked = true;
+										}
+										else if (thisDot.attr("clicked") == "T") {
+											d3.selectAll(".M-dot").attr("clicked", "F");
+											d3.selectAll(".A-dot").attr("clicked", "F");
+											d3.selectAll(".T-dot").attr("clicked", "F");
+											d3.selectAll(".M-dot").style("opacity", 1);
+											d3.selectAll(".A-dot").style("opacity", 1);
+											d3.selectAll(".T-dot").style("opacity", 1);
+											scatterClicked = false;
+										}
+										
 									});
 								
 
