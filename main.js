@@ -888,13 +888,13 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Man United") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Man United") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
@@ -912,7 +912,7 @@ function start() {
 											.style('font-size', '15px');  
 
 										if (!scatterClicked) {
-											d3.selectAll(".M-dot").style("opacity", 0.5);
+											d3.selectAll(".M-dot").style("opacity", 0.2);
 											d3.selectAll(".A-dot").style("opacity", 1);
 											d3.selectAll(".T-dot").style("opacity", 1);
 											d3.select(this).style("opacity", 1);
@@ -933,7 +933,7 @@ function start() {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
 										if (thisDot.attr("clicked") == "F") {
-											d3.selectAll(".M-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".M-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
@@ -1013,13 +1013,13 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Arsenal") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "blackblack"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Arsenal") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "blackblack"
 														}
@@ -1038,7 +1038,7 @@ function start() {
 
 										if (!scatterClicked) {
 											d3.selectAll(".M-dot").style("opacity", 1);
-											d3.selectAll(".A-dot").style("opacity", 0.5);
+											d3.selectAll(".A-dot").style("opacity", 0.2);
 											d3.selectAll(".T-dot").style("opacity", 1);
 											d3.select(this).style("opacity", 1);
 										}	
@@ -1059,7 +1059,7 @@ function start() {
 										var data = thisDot[0][0].__data__;
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
-											d3.selectAll(".A-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".A-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
 											thisDot.style("opacity", 1);
@@ -1138,13 +1138,13 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Tottenham") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Tottenham") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
@@ -1163,7 +1163,7 @@ function start() {
 											 if (!scatterClicked) {
 												d3.selectAll(".M-dot").style("opacity", 1);
 												d3.selectAll(".A-dot").style("opacity", 1);
-												d3.selectAll(".T-dot").style("opacity", 0.5);
+												d3.selectAll(".T-dot").style("opacity", 0.2);
 												d3.select(this).style("opacity", 1);
 											}
 
@@ -1186,7 +1186,7 @@ function start() {
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
-											d3.selectAll(".T-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".T-dot").style("opacity", 0.2).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
 											thisDot.style("opacity", 1);
 											scatterClicked = true;
@@ -1194,7 +1194,7 @@ function start() {
 											
 						
 											if (data.homeTeam == "Tottenham") {
-												statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HS));
+												statsSvg.select("#tShots_tottenham").tranition().duration(500).attr("width", xBarShotsScale(data.HS));
 												statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HST));
 												statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HF));
 												statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HC));
