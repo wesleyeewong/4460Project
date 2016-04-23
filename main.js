@@ -921,13 +921,13 @@ function start() {
 														if(e["HomeTeam"] == "Arsenal") {
 															return "#00AD00";
 														} else {
-															return "blackblack"
+															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Arsenal") {
 															return "#00AD00";
 														} else {
-															return "blackblack"
+															return "black"
 														}
 													} else if(e["FTR"] == "D") {
 														return "white";
