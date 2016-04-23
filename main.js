@@ -132,13 +132,15 @@ function start() {
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
 	// var cWidth = 650;
+	var h = window.innerHeight;
+	console.log(h);
 	var g = document.getElementsByClassName("divWraps")[0];
 	var cWidth = g.clientWidth;
 	console.log(g.clientHeight);
 	var sWidth = cWidth/2;
-	var cHeight = 750;
+	var cHeight = h-267;
 	var width = cWidth - margin.left - margin.right - 50;
-	var height = 700 - margin.top - margin.bottom;
+	var height = h-317 - margin.top - margin.bottom;
 	var xOffset = 25;
 	var yOffset = 25;
 	var totalSeasons = 5;
