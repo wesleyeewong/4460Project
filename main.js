@@ -835,7 +835,34 @@ function start() {
 									.attr("y",30)
 									.style("font-size", 25)
 									.text("Date (day/month/year)");
+								
+								// draw legend
+								scatterLegend = d3.scale.ordinal()
+														.domain(["WIN", "LOSS", "DRAW"])
+														.range(["green", "red", "white"]);
 
+								var legend = scatterSvg.selectAll(".legend")
+									.data(scatterLegend.domain())
+									.enter().append("g")
+									.attr("class", "legend")
+									.attr("transform", function(d, i) { return "translate(" + i * 60 + ",0)"; });
+
+								// draw legend colored rectangles
+								legend.append("rect") // FIX
+									.attr("x", width - 75)
+									.attr("width", 18)
+									.attr("height", 18)
+									.style("fill", scatterLegend);
+
+								// draw legend text
+								legend.append("text")
+									.attr("x", width - 24)
+									.attr("y", 9)
+									.attr("dy", ".35em")
+									.attr("fill", "white")
+									.style("text-anchor", "end")
+									.text(function(d) { return d;});
+														
 								// Draw team rects
 								var scatterRects = scatterSvg.append("g")
 									.selectAll(".scatterRects")
@@ -1419,6 +1446,29 @@ function start() {
 								.text("Tottenham")
 								.attr("fill", color("tott"))
 								.style("font-size", 15);
+								
+							// Legend Working
+							var legend = lineSvg.selectAll(".legend")
+								.data(targetTeams)
+								.enter().append("g")
+								.attr("class", "legend")
+								.attr("transform", function(d, i) { return "translate(" + i * 90 + ", 0)"; });
+
+							// draw legend colored rectangles
+							legend.append("rect")
+								.attr("x", width - 390)
+								.attr("width", 18)
+								.attr("height", 18)
+								.style("fill", color);
+
+							// draw legend text
+							legend.append("text")
+								.attr("x", width - 315)
+								.attr("y", 9)
+								.attr("dy", ".35em")
+								.attr("fill", "white")
+								.style("text-anchor", "end")
+								.text(function(d) { return d;});
 
 						otherDot.append("circle")
 							.attr("class", "dot ars")
