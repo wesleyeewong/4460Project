@@ -540,7 +540,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Shots");
@@ -560,7 +560,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Fouls");
@@ -580,7 +580,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Yellow Cards");
@@ -601,7 +601,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Shots On Target");
@@ -621,7 +621,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Corners");
@@ -641,7 +641,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Red Cards");
