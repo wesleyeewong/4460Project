@@ -1458,25 +1458,6 @@ function start() {
 
 							})
 							.on("click", function(d) {
-
-								// var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
-								// var targetCircle = lineSvg.select(id);
-								// console.log(id);
-
-								// if (targetCircle.attr("clicked") == "F") {
-								// 	targetCircle.transition()
-								// 		.duration(250)
-								// 		.style("stroke", "white")
-								// 		.style("stroke-width", "2.5")
-								// 		.attr("clicked", "T");
-								// } else {
-								// 	targetCircle.transition()
-								// 		.duration(250)
-								// 		.style("stroke", null)
-								// 		.style("stroke-width", null)
-								// 		.attr("clicked", "F");
-								// }
-
 								
 
 							});
