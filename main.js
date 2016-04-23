@@ -959,6 +959,31 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
+										statsSvg.select("#tShots_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").transition().duration(500).attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").transition().duration(500).attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").transition().duration(500).attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").transition().duration(500).attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").transition().duration(500).attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").transition().duration(500).attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").transition().duration(500).attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").transition().duration(500).attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").transition().duration(500).attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").transition().duration(500).attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".manUnited").transition().duration(500).style("opacity", 1);
+
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
@@ -1084,6 +1109,31 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
+										statsSvg.select("#tShots_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").transition().duration(500).attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").transition().duration(500).attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").transition().duration(500).attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").transition().duration(500).attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").transition().duration(500).attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").transition().duration(500).attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").transition().duration(500).attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").transition().duration(500).attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").transition().duration(500).attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").transition().duration(500).attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".manUnited").transition().duration(500).style("opacity", 1);
+
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 0.2).attr("clicked", "F");
@@ -1210,6 +1260,31 @@ function start() {
 										var thisDot = d3.select(this);
 										console.log(thisDot[0][0].__data__);
 										var data = thisDot[0][0].__data__;
+										statsSvg.select("#tShots_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").transition().duration(500).attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").transition().duration(500).attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").transition().duration(500).attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").transition().duration(500).attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").transition().duration(500).attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").transition().duration(500).attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").transition().duration(500).attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").transition().duration(500).attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").transition().duration(500).attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").transition().duration(500).attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 1);
+										statsSvg.selectAll(".manUnited").transition().duration(500).style("opacity", 1);
+
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
