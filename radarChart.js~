@@ -1,16 +1,32 @@
-////////////////////////////////////////////////////////////// 
-//////////////////////// Set-Up ////////////////////////////// 
-////////////////////////////////////////////////////////////// 
-
 var margin = {top: 100, right: 100, bottom: 100, left: 100},
 width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
 height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
-					
-////////////////////////////////////////////////////////////// 
-////////////////////////// Data ////////////////////////////// 
-////////////////////////////////////////////////////////////// 
 
-data = [
+var color = d3.scale.ordinal()
+	.range(["#d62728", "#2983F1", "#C49E57"]); //red Man United   blue Tottenham   yellow Arsenal 
+
+if( (window.opener.ht == "Man United" ) && ( window.opener.at == "Tottenham") ){var color = d3.scale.ordinal().range(["#d62728", "#2983F1"]);}
+
+var radarChartOptions = {
+  w: width,
+  h: height,
+  margin: margin,
+  maxValue: 0.5,
+  levels: 5,
+  roundStrokes: true,
+  color: color
+};
+//Call function to draw the Radar chart
+
+inputdata(window.opener.dmy,window.opener.ht);
+
+function inputdata(dmy,ht){
+	console.log(ht);
+	year=+dmy.substring(dmy.length-2,dmy.length);
+	month=+dmy.substring(dmy.length-7,dmy.length-5);
+	//console.log(year);
+	i=1;
+	data = [
 		  [//home
 			{axis:"Full time goal",value:0.16},
 			{axis:"Half time goal",value:0.35},
@@ -31,67 +47,225 @@ data = [
 			{axis:"Red card",value:0.38}
 		  ]
 		];
-////////////////////////////////////////////////////////////// 
-//////////////////// Draw the Chart ////////////////////////// 
-////////////////////////////////////////////////////////////// 
-
-var color = d3.scale.ordinal()
-	.range(["#EDC951","#CC333F","#00A0B0"]);
+	if( (year==10 && month>7) || (year==11 && month<7) ){
+		d3.csv("10-11.csv",function(d) {
 	
-var radarChartOptions = {
-  w: width,
-  h: height,
-  margin: margin,
-  maxValue: 0.5,
-  levels: 5,
-  roundStrokes: true,
-  color: color
-};
-//Call function to draw the Radar chart
-inputdata(data);
-
-function inputdata(data){
-	d3.csv("10-11.csv",function(d) {
-	
-			return d;
+				return d;
 		
-    		},function(error,csvdata){  
-  
-    		if(error){  
-        		console.log(error);  
-    		}  
-    		//console.log(csvdata);  
+	    		},function(error,csvdata){  
+			for(k=0;k<csvdata.length;k++){
+				if( (csvdata[k].Date == dmy) && (csvdata[k].HomeTeam==ht) ){
+				i=k;
+				console.log(dmy);
+				}			
+			}
+			console.log(i);
+	    		if(error){  
+				console.log(error);  
+	    		}  
 
-		var i=0; // select which game
+			data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
 
-		data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
-		data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
 
-		data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
-		data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
+			data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
 
-		data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
-		data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
+			data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
+			data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
 
-		data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
-		data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
+			data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
+			data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
 
-		data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
-		data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
+			data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
+			data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
 
-		data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
-		data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
+			data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
+			data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
 
-		data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
-		data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
+			data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
+			data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
 
-		data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
-		data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
+	 		RadarChart(".radarChart", data, radarChartOptions);
+		});}
 
+	if( (year==11 && month>7) || (year==12 && month<7) ){
+		d3.csv("11-12.csv",function(d) {
+	
+				return d;
+		
+	    		},function(error,csvdata){  
+			for(k=0;k<csvdata.length;k++){
+				if( (csvdata[k].Date == dmy) && (csvdata[k].HomeTeam==ht) ){
+				i=k;
+				console.log(dmy);
+				}			
+			}
+			console.log(i);
+	    		if(error){  
+				console.log(error);  
+	    		}  
 
- 		RadarChart(".radarChart", data, radarChartOptions);
-	});
+			data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
 
+			data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+
+			data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
+			data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
+
+			data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
+			data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
+
+			data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
+			data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
+
+			data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
+			data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
+
+			data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
+			data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
+
+			data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
+			data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
+
+	 		RadarChart(".radarChart", data, radarChartOptions);
+		});}
+	
+	if( (year==12 && month>7) || (year==13 && month<7) ){
+		d3.csv("12-13.csv",function(d) {
+	
+				return d;
+		
+	    		},function(error,csvdata){  
+			for(k=0;k<csvdata.length;k++){
+				if( (csvdata[k].Date == dmy) && (csvdata[k].HomeTeam==ht) ){
+				i=k;
+				console.log(dmy);
+				}			
+			}
+			console.log(i);
+	    		if(error){  
+				console.log(error);  
+	    		}  
+
+			data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+
+			data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+
+			data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
+			data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
+
+			data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
+			data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
+
+			data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
+			data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
+
+			data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
+			data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
+
+			data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
+			data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
+
+			data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
+			data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
+
+	 		RadarChart(".radarChart", data, radarChartOptions);
+		});}
+
+	if( (year==13 && month>7) || (year==14 && month<7) ){
+		d3.csv("13-14.csv",function(d) {
+	
+				return d;
+		
+	    		},function(error,csvdata){  
+			for(k=0;k<csvdata.length;k++){
+				if( (csvdata[k].Date == dmy) && (csvdata[k].HomeTeam==ht) ){
+				i=k;
+				console.log(dmy);
+				}			
+			}
+			console.log(i);
+	    		if(error){  
+				console.log(error);  
+	    		}  
+
+			data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+
+			data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+
+			data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
+			data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
+
+			data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
+			data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
+
+			data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
+			data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
+
+			data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
+			data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
+
+			data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
+			data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
+
+			data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
+			data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
+
+	 		RadarChart(".radarChart", data, radarChartOptions);
+		});}
+
+	if( (year==14 && month>7) || (year==15 && month<7) ){
+		d3.csv("14-15.csv",function(d) {
+	
+				return d;
+		
+	    		},function(error,csvdata){  
+			for(k=0;k<csvdata.length;k++){
+				if( (csvdata[k].Date == dmy) && (csvdata[k].HomeTeam==ht) ){
+				i=k;
+				console.log(dmy);
+				}			
+			}
+			console.log(i);
+	    		if(error){  
+				console.log(error);  
+	    		}  
+
+			data[0][0].value= calhper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+			data[1][0].value= calaper(+csvdata[i].FTHG , +csvdata[i].FTAG);
+
+			data[0][1].value= calhper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+			data[1][1].value= calaper(+csvdata[i].HTHG , +csvdata[i].HTAG);
+
+			data[0][2].value= calhper(+csvdata[i].HS , +csvdata[i].AS);
+			data[1][2].value= calaper(+csvdata[i].HS , +csvdata[i].AS);
+
+			data[0][3].value= calhper(+csvdata[i].HST , +csvdata[i].AST);
+			data[1][3].value= calaper(+csvdata[i].HST , +csvdata[i].AST);
+
+			data[0][4].value= calhper(+csvdata[i].HF , +csvdata[i].AF);
+			data[1][4].value= calaper(+csvdata[i].HF , +csvdata[i].AF);
+
+			data[0][5].value= calhper(+csvdata[i].HC , +csvdata[i].AC);
+			data[1][5].value= calaper(+csvdata[i].HC , +csvdata[i].AC);
+
+			data[0][6].value= calhper(+csvdata[i].HY , +csvdata[i].AY);
+			data[1][6].value= calaper(+csvdata[i].HY , +csvdata[i].AY);
+
+			data[0][7].value= calhper(+csvdata[i].HR , +csvdata[i].AR);
+			data[1][7].value= calaper(+csvdata[i].HR , +csvdata[i].AR);
+
+	 		RadarChart(".radarChart", data, radarChartOptions);
+		});}
 }
 
 function calhper(h,a){
@@ -142,10 +316,6 @@ function RadarChart(id, data, options) {
 	var rScale = d3.scale.linear()
 		.range([0, radius])
 		.domain([0, maxValue]);
-		
-	/////////////////////////////////////////////////////////
-	//////////// Create the container SVG and g /////////////
-	/////////////////////////////////////////////////////////
 
 	//Remove whatever chart with the same id/class was present before
 	d3.select(id).select("svg").remove();
@@ -155,13 +325,54 @@ function RadarChart(id, data, options) {
 			.attr("width",  cfg.w + cfg.margin.left + cfg.margin.right)
 			.attr("height", cfg.h + cfg.margin.top + cfg.margin.bottom)
 			.attr("class", "radar"+id);
+
+
+	var texttitle = svg.append("text")
+		.attr("class", "title")
+		.attr('transform', 'translate(90,0)') 
+		.attr("x", 150)
+		.attr("y", 25)
+		.attr("font-size", "12px")
+		.attr("fill", "white")
+		.text( window.opener.dmy+" "+window.opener.ht+" vs "+window.opener.at);
+
+	var LegendOptions = [window.opener.ht+' (hometeam)',window.opener.at+' (awayteam)'];
+
+	var colorscale = d3.scale.category10();	
+
+	var legend = svg.append("g")
+		.attr("class", "legend")
+		.attr("height", 100)
+		.attr("width", 200)
+		.attr('transform', 'translate(90,20)') 
+		;
+		//Create colour squares
+	legend.selectAll('rect')
+		  .data(LegendOptions)
+		  .enter()
+		  .append("rect")
+		  .attr("x", 500 - 65)
+		  .attr("y", function(d, i){ return i * 20;})
+		  .attr("width", 10)
+		  .attr("height", 10)
+		  .style("fill", function(d, i){ return color(i);})
+		  ;
+		//Create text next to squares
+	legend.selectAll('text')
+		  .data(LegendOptions)
+		  .enter()
+		  .append("text")
+		  .attr("x", 500 - 52)
+		  .attr("y", function(d, i){ return i * 20 + 9;})
+		  .attr("font-size", "11px")
+		  .attr("fill", "white")
+		  .text(function(d) { return d; })
+		  ;
+
+
 	//Append a g element		
 	var g = svg.append("g")
 			.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
-	
-	/////////////////////////////////////////////////////////
-	////////// Glow filter for some extra pizzazz ///////////
-	/////////////////////////////////////////////////////////
 	
 	//Filter for the outside glow
 	var filter = g.append('defs').append('filter').attr('id','glow'),
@@ -169,10 +380,6 @@ function RadarChart(id, data, options) {
 		feMerge = filter.append('feMerge'),
 		feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
 		feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
-
-	/////////////////////////////////////////////////////////
-	/////////////// Draw the Circular grid //////////////////
-	/////////////////////////////////////////////////////////
 	
 	//Wrapper for the grid & axes
 	var axisGrid = g.append("g").attr("class", "axisWrapper");
@@ -198,12 +405,8 @@ function RadarChart(id, data, options) {
 	   .attr("y", function(d){return -d*radius/cfg.levels;})
 	   .attr("dy", "0.4em")
 	   .style("font-size", "10px")
-	   .attr("fill", "#737373")
+	   .attr("fill", "white")
 	   .text(function(d,i) { return Format(maxValue * d/cfg.levels); });
-
-	/////////////////////////////////////////////////////////
-	//////////////////// Draw the axes //////////////////////
-	/////////////////////////////////////////////////////////
 	
 	//Create the straight lines radiating outward from the center
 	var axis = axisGrid.selectAll(".axis")
@@ -231,10 +434,6 @@ function RadarChart(id, data, options) {
 		.attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
 		.text(function(d){return d})
 		.call(wrap, cfg.wrapWidth);
-
-	/////////////////////////////////////////////////////////
-	///////////// Draw the radar chart blobs ////////////////
-	/////////////////////////////////////////////////////////
 	
 	//The radial line function
 	var radarLine = d3.svg.line.radial()
@@ -295,10 +494,6 @@ function RadarChart(id, data, options) {
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", function(d,i,j) { return cfg.color(j); })
 		.style("fill-opacity", 0.8);
-
-	/////////////////////////////////////////////////////////
-	//////// Append invisible circles for tooltip ///////////
-	/////////////////////////////////////////////////////////
 	
 	//Wrapper for the invisible circles on top
 	var blobCircleWrapper = g.selectAll(".radarCircleWrapper")
@@ -308,7 +503,7 @@ function RadarChart(id, data, options) {
 		
 	//Append a set of invisible circles on top for the mouseover pop-up
 	blobCircleWrapper.selectAll(".radarInvisibleCircle")
-		.data(function(d,i) { return d; })
+		.data(function(d,i) { console.log(d); return d; })
 		.enter().append("circle")
 		.attr("class", "radarInvisibleCircle")
 		.attr("r", cfg.dotRadius*1.5)
@@ -337,10 +532,6 @@ function RadarChart(id, data, options) {
 		.attr("class", "tooltip")
 		.style("opacity", 0);
 
-	
-	/////////////////////////////////////////////////////////
-	/////////////////// Helper Function /////////////////////
-	/////////////////////////////////////////////////////////
 
 	//Wraps SVG text	
 	function wrap(text, width) {

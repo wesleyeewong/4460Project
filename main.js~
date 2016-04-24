@@ -934,7 +934,6 @@ function start() {
 										var data = thisDot[0][0].__data__;
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
-										window.at=data.AwayTeam;
 										console.log(window.ht);
 										window.yy=1;
 										window.dd=1;
@@ -1066,7 +1065,6 @@ function start() {
 										var data = thisDot[0][0].__data__;
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
-										window.at=data.AwayTeam;
 										
 										window.yy=1;
 										window.dd=1;
@@ -1199,7 +1197,6 @@ function start() {
 										var data = thisDot[0][0].__data__;
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
-										window.at=data.AwayTeam;
 										console.log(window.ht);
 										window.yy=1;
 										window.dd=1;
