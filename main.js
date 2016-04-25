@@ -814,13 +814,11 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
-<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
 										console.log(window.ht);
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
-=======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
 										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
 										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
@@ -847,8 +845,6 @@ function start() {
 										statsSvg.selectAll(".manUnited").style("opacity", 1);
 
 										console.log("manU dot clicked");
-
->>>>>>> origin/master
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
@@ -984,12 +980,10 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
-<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
-=======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
 										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
 										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
@@ -1016,8 +1010,6 @@ function start() {
 										statsSvg.selectAll(".manUnited").style("opacity", 1);
 
 										console.log("Arsenal clicked");
-
->>>>>>> origin/master
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 0.2).attr("clicked", "F");
@@ -1153,12 +1145,10 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
-<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
-=======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
 										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
 										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
@@ -1184,9 +1174,8 @@ function start() {
 										statsSvg.selectAll(".arsenal").style("opacity", 1);
 										statsSvg.selectAll(".manUnited").style("opacity", 1);
 
-										console.log("Tottenham clicked")
-
->>>>>>> origin/master
+										console.log("Tottenham clicked");
+										
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
