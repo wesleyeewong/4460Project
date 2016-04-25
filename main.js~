@@ -123,128 +123,6 @@ function totalStats(d) {
 
 }
 
-function countWinLoss(d, rival) {
-	var homeWin = 0;
-	var homeLoss = 0;
-	var homeDraw = 0;
-	var awayWin = 0;
-	var awayLoss = 0;
-	var awayDraw = 0;
-	var total = 0;
-	var homeStats = [];
-	var awayStats = [];
-	var homeTotalGoalScored = 0;
-	var homeTotalGoalConceded = 0;
-	var awayTotalGoalScored = 0;
-	var awayTotalGoalConceded = 0;
-
-	d.forEach(function(e) {
-
-		if (rival != "other") {
-			if (e.HomeTeam == "Arsenal" && e.AwayTeam == rival) {
-				if (e.FTR == "H") {
-					homeWin += 1;
-				} else if (e.FTR == "A") {
-					homeLoss += 1;
-				} else {
-					homeDraw += 1;
-				}
-				total += 1;
-
-				var statsObject = {
-					date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
-					homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
-					homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
-
-				homeStats.push(statsObject);
-
-				homeTotalGoalScored += e.FTHG;
-				homeTotalGoalConceded += e.FTAG;
-			}
-			if (e.HomeTeam == rival && e.AwayTeam == "Arsenal") {
-				if (e.FTR == "A") {
-					awayWin += 1;
-				} else if (e.FTR == "H") {
-					awayLoss += 1;
-				} else {
-					awayDraw += 1;
-				}
-				total += 1;
-
-				var statsObject = {
-					date: e.Date, homeGoals: e.FTHG, awayGoals: e.FTAG, homeShots: e.HS, awayShots: e.AS, 
-					homeShotsOnTarget: e.HST, awayShotsOnTarget: e.AST, homeFoul: e.HF, awayFoul: e.AF,
-					homeCorner: e.HC, awayCorner: e.AC, homeYellow: e.HY, awayYellow: e.AY, homeRed: e.HR, awayRed: e.AR};
-
-				awayStats.push(statsObject);
-
-				awayTotalGoalScored += e.FTAG;
-				awayTotalGoalConceded += e.FTHG;
-			}
-		} else {
-			if (e.HomeTeam == "Arsenal" && ["Man United", "Tottenham"].indexOf(e.AwayTeam) == -1) {
-				//console.log(e.AwayTeam);
-				if (e.FTR == "H") {
-					homeWin += 1;
-				} else if (e.FTR == "A") {
-					homeLoss += 1;
-				} else {
-					homeDraw += 1;
-				}
-				total += 1;
-			}
-			if (["Man United", "Tottenham"].indexOf(e.HomeTeam) == -1 && e.AwayTeam == "Arsenal") {
-				//console.log(e.HomeTeam);
-				if (e.FTR == "A") {
-					awayWin += 1;
-				} else if (e.FTR == "H") {
-					awayLoss += 1;
-				} else {
-					awayDraw += 1;
-				}
-				total += 1;
-			}
-		}
-
-	});
-
-	return {homeW:homeWin, homeL:homeLoss, homeD:homeDraw, 
-		awayW:awayWin, awayL:awayLoss, awayD:awayDraw, totalG:total, hStats: homeStats, aStats: awayStats, 
-		homeTGS: homeTotalGoalScored, homeTGC: homeTotalGoalConceded, awayTGS: awayTotalGoalScored, awayTGC: awayTotalGoalConceded};
-}
-
-function resetBar(statsSvg) {
-
-	statsSvg.select("#tShots_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
-	statsSvg.select("#tShotsOnTarget_manUnited").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
-	statsSvg.select("#tFouls_manUnited").transition().duration(500).attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
-	statsSvg.select("#tCorners_manUnited").transition().duration(500).attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
-	statsSvg.select("#tYellows_manUnited").transition().duration(500).attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
-	statsSvg.select("#tReds_manUnited").transition().duration(500).attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
-
-	statsSvg.select("#tShots_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
-	statsSvg.select("#tShotsOnTarget_arsenal").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
-	statsSvg.select("#tFouls_arsenal").transition().duration(500).attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
-	statsSvg.select("#tCorners_arsenal").transition().duration(500).attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
-	statsSvg.select("#tYellows_arsenal").transition().duration(500).attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
-	statsSvg.select("#tReds_arsenal").transition().duration(500).attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
-
-	statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
-	statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
-	statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
-	statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
-	statsSvg.select("#tYellows_tottenham").transition().duration(500).attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
-	statsSvg.select("#tReds_tottenham").transition().duration(500).attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
-
-	statsSvg.selectAll(".tottenham").transition().duration(500).style("opacity", 1);
-	statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 1);
-	statsSvg.selectAll(".manUnited").transition().duration(500).style("opacity", 1);
-
-	console.log("testing");
-
-
-}
-
 function start() {
 
 	var lineGraph = document.getElementById("graph");
@@ -254,13 +132,15 @@ function start() {
 	// Constants
 	var margin = {top:40, right:40, left:40, bottom:40};
 	// var cWidth = 650;
+	var h = window.innerHeight;
+	console.log(h);
 	var g = document.getElementsByClassName("divWraps")[0];
 	var cWidth = g.clientWidth;
 	console.log(g.clientHeight);
 	var sWidth = cWidth/2;
-	var cHeight = 750;
+	var cHeight = h-267;
 	var width = cWidth - margin.left - margin.right - 50;
-	var height = 700 - margin.top - margin.bottom;
+	var height = h-317 - margin.top - margin.bottom;
 	var xOffset = 25;
 	var yOffset = 25;
 	var totalSeasons = 5;
@@ -289,7 +169,7 @@ function start() {
 	var scatterXScale = d3.scale.ordinal().rangeRoundBands([0, ((cWidth*2)-margin.left-margin.right)]);
 	var uniqueDate = function(d) { return d3.map(d, function(e) { return e["Date"]; }).keys() };
 	var scatterXMap = function(d) { return scatterXScale(d["Date"]); };
-	var scatterXAxis =	d3.svg.axis().scale(scatterXScale).orient("bottom").tickFormat("");
+	var scatterXAxis =	d3.svg.axis().scale(scatterXScale).orient("bottom");
 
 	var scatterYValue = function(d, team) { 
 		if(d["HomeTeam"] == team || d["AwayTeam"] == team) {
@@ -419,27 +299,6 @@ function start() {
 						var tottenhamStat1314 = generateStatObject(data1314, "Tottenham");
 						var tottenhamStat1415 = generateStatObject(data1415, "Tottenham");
 
-						// Calculate win/loss versus ManU
-						var vsManU1011 = countWinLoss(data1011, "Man United");
-						var vsManU1112 = countWinLoss(data1112, "Man United");
-						var vsManU1213 = countWinLoss(data1213, "Man United");
-						var vsManU1314 = countWinLoss(data1314, "Man United");
-						var vsManU1415 = countWinLoss(data1415, "Man United");
-
-						// Calculate win/loss versus Tottenham
-						var vsTott1011 = countWinLoss(data1011, "Tottenham");
-						var vsTott1112 = countWinLoss(data1112, "Tottenham");
-						var vsTott1213 = countWinLoss(data1213, "Tottenham");
-						var vsTott1314 = countWinLoss(data1314, "Tottenham");
-						var vsTott1415 = countWinLoss(data1415, "Tottenham");
-
-						// Calculate win/loss versus Other
-						var vsOther1011 = countWinLoss(data1011, "other");
-						var vsOther1112 = countWinLoss(data1112, "other");
-						var vsOther1213 = countWinLoss(data1213, "other");
-						var vsOther1314 = countWinLoss(data1314, "other");
-						var vsOther1415 = countWinLoss(data1415, "other");
-
 						var parsedData = [
 						{
 							key: "10/11",
@@ -471,34 +330,6 @@ function start() {
 							manUnited: manUnitedStat1415,
 							tottenham: tottenhamStat1415,
 							raw: data1415
-						}];
-
-						var parsedDataOld = [
-						{
-							key: "10/11 Season",
-							manU: vsManU1011,
-							tott: vsTott1011,
-							other: vsOther1011
-						}, {
-							key: "11/12 Season",
-							manU: vsManU1112,
-							tott: vsTott1112,
-							other: vsOther1112
-						}, {
-							key: "12/13 Season",
-							manU: vsManU1213,
-							tott: vsTott1213,
-							other: vsOther1213
-						}, {
-							key: "13/14 Season",
-							manU: vsManU1314,
-							tott: vsTott1314,
-							other: vsOther1314
-						}, {
-							key: "14/15 Season",
-							manU: vsManU1415,
-							tott: vsTott1415,
-							other: vsOther1415
 						}];
 
 						// X and Y scaling domains
@@ -709,7 +540,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Shots");
@@ -729,7 +560,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Fouls");
@@ -749,7 +580,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Yellow Cards");
@@ -770,7 +601,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Shots On Target");
@@ -790,7 +621,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Corners");
@@ -810,7 +641,7 @@ function start() {
 									.attr("fill", "white")
 									.append("text")
 									.attr("x", 0)
-									.attr("y", -185)
+									.attr("y", -(height/3.3))
 									.style("font-size", 15)
 									.attr("class", "statsHeader")
 									.text("Red Cards");
@@ -830,12 +661,52 @@ function start() {
 									.attr("transform", "translate("+xOffset+", "+(height)+")")
 									.call(scatterXAxis)
 									.attr("fill", "white")
+									.selectAll("text")
+									.attr("fill", "white")
+									.style("text-anchor", "end")
+									.attr("dx", "-.8em")
+									.attr("dy", ".15em")
+									.attr("transform", function(d) {
+										return "rotate(-65)";
+									})
 									.append("text")
-									.attr("x", (cWidth/2))
-									.attr("y",30)
-									.style("font-size", 25)
-									.text("Date (day/month/year)");
+									.attr("class", "label")
+									.attr("x", width)
+									.attr("y", -6)
+									.attr("fill", "white");
+								
+								// draw legend
+								scatterLegend = d3.scale.ordinal()
+														.domain(["WIN", "LOSS", "DRAW"])
+														.range(["green", "black", "white"]);
 
+								var legend = scatterSvg.selectAll(".legend")
+									.data(scatterLegend.domain())
+									.enter().append("g")
+									.attr("class", "legend")
+									.attr("transform", function(d, i) { return "translate(" + i * 60 + ",0)"; });
+
+								// draw legend colored rectangles
+								legend.append("rect") // FIX
+									.attr("x", width - 75)
+									.attr("y", 2)
+									.attr("rx", 100)
+									.attr("ry", 100)
+									.attr("stroke", "white")
+									.attr("stroke-width", 1)
+									.attr("width", 16)
+									.attr("height", 16)
+									.style("fill", scatterLegend);
+
+								// draw legend text
+								legend.append("text")
+									.attr("x", width - 24)
+									.attr("y", 9)
+									.attr("dy", ".35em")
+									.attr("fill", "white")
+									.style("text-anchor", "end")
+									.text(function(d) { return d;});
+														
 								// Draw team rects
 								var scatterRects = scatterSvg.append("g")
 									.selectAll(".scatterRects")
@@ -866,7 +737,6 @@ function start() {
 									.append("circle")
 									.filter(function(e) { 
 												if (e.HomeTeam == "Man United" || e.AwayTeam == "Man United") {
-													console.log("Man United");
 													return "Man United";
 												}
 											})
@@ -888,13 +758,13 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Man United") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Man United") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
@@ -911,8 +781,18 @@ function start() {
 											.style("top", (d3.event.pageY + 15) + "px")
 											.style('font-size', '15px');  
 
+										console.log(d3.select(this).attr("cx"));
+										scatterSvg.append("rect")
+											.attr("id", "referenceLine")
+											.attr("height", height-d3.select(this).attr("cy")+25)
+											.attr("width", 2)
+											.attr("x", d3.select(this).attr("cx"))
+											.attr("y", d3.select(this).attr("cy"))
+											.style("fill", "yellow")
+											.style("opacity", 0.5);
+
 										if (!scatterClicked) {
-											d3.selectAll(".M-dot").style("opacity", 0.5);
+											d3.selectAll(".M-dot").style("opacity", 0.2);
 											d3.selectAll(".A-dot").style("opacity", 1);
 											d3.selectAll(".T-dot").style("opacity", 1);
 											d3.select(this).style("opacity", 1);
@@ -921,7 +801,9 @@ function start() {
 									.on("mouseout", function(e) {
 										tooltip.transition()        
 											.duration(500)      
-											.style("opacity", 0);   
+											.style("opacity", 0);  
+
+										scatterSvg.select("#referenceLine").remove(); 
 
 										if (!scatterClicked) {
 											d3.selectAll(".M-dot").style("opacity", 1);
@@ -932,14 +814,45 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
+<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
+										window.at=data.AwayTeam;
 										console.log(window.ht);
 										window.yy=1;
 										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
+=======
+										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").style("opacity", 1);
+										statsSvg.selectAll(".arsenal").style("opacity", 1);
+										statsSvg.selectAll(".manUnited").style("opacity", 1);
+
+										console.log("manU dot clicked");
+
+>>>>>>> origin/master
 										if (thisDot.attr("clicked") == "F") {
-											d3.selectAll(".M-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".M-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
@@ -956,7 +869,7 @@ function start() {
 												statsSvg.select("#tYellows_manUnitedl").transition().duration(500).attr("width", xBarShotsScale(data.HY));
 												statsSvg.select("#tReds_manUnited").transition().duration(500).attr("width", xBarShotsScale(data.HR));
 												statsSvg.selectAll(".tottenham").transition().duration(500).style("opacity", 0.05);
-												statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 0.05);
+												statsSvg.selectAll(".arsenal").transition().duration(500).style("opacity", 0.05);	
 											}
 											else {
 												statsSvg.select("#tShots_manUnited").transition().duration(500).attr("width", xBarShotsScale(data.AS));
@@ -997,7 +910,6 @@ function start() {
 									.append("circle")
 									.filter(function(e) { 
 												if (e.HomeTeam == "Arsenal" || e.AwayTeam == "Arsenal") {
-													console.log("Arsenal");
 													return "Arsenal";
 												}
 											})
@@ -1019,15 +931,15 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Arsenal") {
-															return "green";
+															return "#00AD00";
 														} else {
-															return "blackblack"
+															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Arsenal") {
-															return "green";
+															return "#00AD00";
 														} else {
-															return "blackblack"
+															return "black"
 														}
 													} else if(e["FTR"] == "D") {
 														return "white";
@@ -1040,11 +952,20 @@ function start() {
 											tooltip.html(e["HomeTeam"] + " VS "+ e["AwayTeam"] + "<br/>"  + e["FTHG"] + " : "+ e["FTAG"]+ "<br/>" + e["Date"])
 											.style("left", (d3.event.pageX + 15) + "px")     
 											.style("top", (d3.event.pageY + 15) + "px")
-											.style('font-size', '15px');   
+											.style('font-size', '15px');  
+
+										scatterSvg.append("rect")
+											.attr("id", "referenceLine")
+											.attr("height", height-d3.select(this).attr("cy")+25)
+											.attr("width", 2)
+											.attr("x", d3.select(this).attr("cx"))
+											.attr("y", d3.select(this).attr("cy"))
+											.style("fill", "yellow")
+											.style("opacity", 0.5); 
 
 										if (!scatterClicked) {
 											d3.selectAll(".M-dot").style("opacity", 1);
-											d3.selectAll(".A-dot").style("opacity", 0.5);
+											d3.selectAll(".A-dot").style("opacity", 0.2);
 											d3.selectAll(".T-dot").style("opacity", 1);
 											d3.select(this).style("opacity", 1);
 										}	
@@ -1053,6 +974,8 @@ function start() {
 										tooltip.transition()        
 											.duration(500)      
 											.style("opacity", 0);
+
+										scatterSvg.select("#referenceLine").remove();
 
 										if (!scatterClicked) {
 											d3.selectAll(".M-dot").style("opacity", 1);
@@ -1063,15 +986,46 @@ function start() {
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
 										var data = thisDot[0][0].__data__;
+<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
+										window.at=data.AwayTeam;
 										
 										window.yy=1;
 										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
+=======
+										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").style("opacity", 1);
+										statsSvg.selectAll(".arsenal").style("opacity", 1);
+										statsSvg.selectAll(".manUnited").style("opacity", 1);
+
+										console.log("Arsenal clicked");
+
+>>>>>>> origin/master
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
-											d3.selectAll(".A-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".A-dot").style("opacity", 0.2).attr("clicked", "F");
 											d3.selectAll(".T-dot").style("opacity", 1).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
 											thisDot.style("opacity", 1);
@@ -1128,7 +1082,6 @@ function start() {
 									.append("circle")
 									.filter(function(e) { 
 												if (e.HomeTeam == "Tottenham" || e.AwayTeam == "Tottenham") {
-													console.log("Tottenham");
 													return "Tottenham";
 												}
 											})
@@ -1150,13 +1103,13 @@ function start() {
 									.style("fill", function(e){
 													if(e["FTR"] == "H") {
 														if(e["HomeTeam"] == "Tottenham") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
 													} else if(e["FTR"] == "A") {
 														if(e["AwayTeam"] == "Tottenham") {
-															return "green";
+															return "#00AD00";
 														} else {
 															return "black"
 														}
@@ -1175,15 +1128,26 @@ function start() {
 											 if (!scatterClicked) {
 												d3.selectAll(".M-dot").style("opacity", 1);
 												d3.selectAll(".A-dot").style("opacity", 1);
-												d3.selectAll(".T-dot").style("opacity", 0.5);
+												d3.selectAll(".T-dot").style("opacity", 0.2);
 												d3.select(this).style("opacity", 1);
 											}
+
+											scatterSvg.append("rect")
+												.attr("id", "referenceLine")
+												.attr("height", height-d3.select(this).attr("cy")+25)
+												.attr("width", 2)
+												.attr("x", d3.select(this).attr("cx"))
+												.attr("y", d3.select(this).attr("cy"))
+												.style("fill", "yellow")
+												.style("opacity", 0.5);
 
 									})
 									.on("mouseout", function(e) {
 										tooltip.transition()        
 											.duration(500)      
 											.style("opacity", 0);  
+
+										scatterSvg.select("#referenceLine").remove();
 
 										if (!scatterClicked) {
 											d3.selectAll(".M-dot").style("opacity", 1);
@@ -1193,18 +1157,48 @@ function start() {
 									})
 									.on("click", function(e) {
 										var thisDot = d3.select(this);
-										console.log(thisDot[0][0].__data__);
 										var data = thisDot[0][0].__data__;
+<<<<<<< HEAD
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
+										window.at=data.AwayTeam;
 										console.log(window.ht);
 										window.yy=1;
 										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
+=======
+										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_manUnited").attr("width", statsSvg.select("#tShotsOnTarget_manUnited").attr("originalWidth"));
+										statsSvg.select("#tFouls_manUnited").attr("width", statsSvg.select("#tFouls_manUnited").attr("originalWidth"));
+										statsSvg.select("#tCorners_manUnited").attr("width", statsSvg.select("#tCorners_manUnited").attr("originalWidth"));
+										statsSvg.select("#tYellows_manUnited").attr("width", statsSvg.select("#tYellows_manUnited").attr("originalWidth"));
+										statsSvg.select("#tReds_manUnited").attr("width", statsSvg.select("#tReds_manUnited").attr("originalWidth"));
+
+										statsSvg.select("#tShots_arsenal").attr("width", statsSvg.select("#tShots_arsenal").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_arsenal").attr("width", statsSvg.select("#tShotsOnTarget_arsenal").attr("originalWidth"));
+										statsSvg.select("#tFouls_arsenal").attr("width", statsSvg.select("#tFouls_arsenal").attr("originalWidth"));
+										statsSvg.select("#tCorners_arsenal").attr("width", statsSvg.select("#tCorners_arsenal").attr("originalWidth"));
+										statsSvg.select("#tYellows_arsenal").attr("width", statsSvg.select("#tYellows_arsenal").attr("originalWidth"));
+										statsSvg.select("#tReds_arsenal").attr("width", statsSvg.select("#tReds_arsenal").attr("originalWidth"));
+
+										statsSvg.select("#tShots_tottenham").attr("width", statsSvg.select("#tShots_tottenham").attr("originalWidth"));
+										statsSvg.select("#tShotsOnTarget_tottenham").attr("width", statsSvg.select("#tShotsOnTarget_tottenham").attr("originalWidth"));
+										statsSvg.select("#tFouls_tottenham").attr("width", statsSvg.select("#tFouls_tottenham").attr("originalWidth"));
+										statsSvg.select("#tCorners_tottenham").attr("width", statsSvg.select("#tCorners_tottenham").attr("originalWidth"));
+										statsSvg.select("#tYellows_tottenham").attr("width", statsSvg.select("#tYellows_tottenham").attr("originalWidth"));
+										statsSvg.select("#tReds_tottenham").attr("width", statsSvg.select("#tReds_tottenham").attr("originalWidth"));
+
+										statsSvg.selectAll(".tottenham").style("opacity", 1);
+										statsSvg.selectAll(".arsenal").style("opacity", 1);
+										statsSvg.selectAll(".manUnited").style("opacity", 1);
+
+										console.log("Tottenham clicked")
+
+>>>>>>> origin/master
 										if (thisDot.attr("clicked") == "F") {
 											d3.selectAll(".M-dot").style("opacity", 1).attr("clicked", "F");
 											d3.selectAll(".A-dot").style("opacity", 1).attr("clicked", "F");
-											d3.selectAll(".T-dot").style("opacity", 0.5).attr("clicked", "F");
+											d3.selectAll(".T-dot").style("opacity", 0.2).attr("clicked", "F");
 											thisDot.attr("clicked", "T");
 											thisDot.style("opacity", 1);
 											scatterClicked = true;
@@ -1212,7 +1206,7 @@ function start() {
 											
 						
 											if (data.homeTeam == "Tottenham") {
-												statsSvg.select("#tShots_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HS));
+												statsSvg.select("#tShots_tottenham").tranition().duration(500).attr("width", xBarShotsScale(data.HS));
 												statsSvg.select("#tShotsOnTarget_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HST));
 												statsSvg.select("#tFouls_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HF));
 												statsSvg.select("#tCorners_tottenham").transition().duration(500).attr("width", xBarShotsScale(data.HC));
@@ -1437,6 +1431,38 @@ function start() {
 								.text("Tottenham")
 								.attr("fill", color("tott"))
 								.style("font-size", 15);
+								
+							// Legend Working
+							var legend = lineSvg.selectAll(".legend")
+								.data(["other", "manU", "tott"])
+								.enter().append("g")
+								.attr("class", "legend")
+								.attr("transform", function(d, i) { return "translate(" + i * 90 + ", 0)"; });
+
+							// draw legend colored rectangles
+							legend.append("rect")
+								.attr("x", width - 390)
+								.attr("y", 8)
+								.attr("width", 18)
+								.attr("height", 2)
+								.style("fill", color);
+
+							// draw legend text
+							legend.append("text")
+								.attr("x", width - 315)
+								.attr("y", 9)
+								.attr("dy", ".35em")
+								.attr("fill", "white")
+								.style("text-anchor", "end")
+								.text(function(d) { 
+									if (d=="other") {
+										return "Arsenal";
+									} else if (d=="manU") {
+										return "Man United";
+									} else {
+										return "Tottenham";
+									}
+								});
 
 						otherDot.append("circle")
 							.attr("class", "dot ars")
@@ -1466,25 +1492,6 @@ function start() {
 
 							})
 							.on("click", function(d) {
-
-								// var id = "#other_"+d.key.replace(" Season", "").replace("/", "_");
-								// var targetCircle = lineSvg.select(id);
-								// console.log(id);
-
-								// if (targetCircle.attr("clicked") == "F") {
-								// 	targetCircle.transition()
-								// 		.duration(250)
-								// 		.style("stroke", "white")
-								// 		.style("stroke-width", "2.5")
-								// 		.attr("clicked", "T");
-								// } else {
-								// 	targetCircle.transition()
-								// 		.duration(250)
-								// 		.style("stroke", null)
-								// 		.style("stroke-width", null)
-								// 		.attr("clicked", "F");
-								// }
-
 								
 
 							});

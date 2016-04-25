@@ -819,8 +819,6 @@ function start() {
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
 										console.log(window.ht);
-										window.yy=1;
-										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
 =======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
@@ -990,9 +988,6 @@ function start() {
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
-										
-										window.yy=1;
-										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
 =======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
@@ -1162,9 +1157,6 @@ function start() {
 										window.dmy=data.Date;
 										window.ht=data.HomeTeam;
 										window.at=data.AwayTeam;
-										console.log(window.ht);
-										window.yy=1;
-										window.dd=1;
 										window.open ('radar.html', 'newwindow', 'height=800, width=800, top=0,left=0, toolbar=yes, menubar=yes, scrollbars=yes, resizable=yes,location=yes, status=yes') ;
 =======
 										statsSvg.select("#tShots_manUnited").attr("width", statsSvg.select("#tShots_manUnited").attr("originalWidth"));
